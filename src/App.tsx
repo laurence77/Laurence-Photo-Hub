@@ -17,6 +17,9 @@ import FeaturesFeed from "./pages/FeaturesFeed";
 import FeaturesPlatforms from "./pages/FeaturesPlatforms";
 import StatusPage from "./pages/StatusPage";
 import SecurityPage from "./pages/SecurityPage";
+import SupportPage from "./pages/SupportPage";
+import TermsPage from "./pages/TermsPage";
+import PrivacyPage from "./pages/PrivacyPage";
 import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
@@ -47,6 +50,9 @@ const App = () => (
           <Route path="/features/platforms" element={<FeaturesPlatforms />} />
           <Route path="/status" element={<StatusPage />} />
           <Route path="/security" element={<SecurityPage />} />
+          <Route path="/support" element={<SupportPage />} />
+          <Route path="/legal/terms" element={<TermsPage />} />
+          <Route path="/legal/privacy" element={<PrivacyPage />} />
           {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
           <Route path="*" element={<NotFound />} />
         </Routes>
