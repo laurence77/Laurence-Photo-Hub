@@ -1,3 +1,23 @@
+// TypeScript global declarations for Chrome Cast and Presentation API
+declare global {
+  interface Window {
+    chrome?: unknown;
+    cast?: unknown;
+  }
+  // Chrome Cast types (minimal, for TS compliance)
+  // Use unknown for globals, or import types from @types/chromecast-caf-receiver if available
+  var chrome: unknown;
+  var cast: unknown;
+  interface Navigator {
+    presentation?: Presentation;
+  }
+  interface Presentation {
+    defaultRequest?: {
+      start: () => Promise<unknown>;
+    };
+  }
+}
+
 import React, { useState, useEffect } from 'react';
 import { getImagePath } from '@/lib/utils';
 import { Tv, Cast, Play, Pause, SkipBack, SkipForward, Volume2, Settings, Wifi, QrCode } from 'lucide-react';
@@ -18,17 +38,22 @@ interface MediaItem {
   url: string;
   title: string;
   duration?: number;
-  metadata?: any;
+  metadata?: Record<string, unknown>;
 }
 
 export function SmartTVCasting() {
   const [availableDevices, setAvailableDevices] = useState<CastDevice[]>([]);
   const [connectedDevice, setConnectedDevice] = useState<CastDevice | null>(null);
-  const [isScanning, setIsScanning] = useState(false);
+  const [isScanning, setIsScanning] = useState<boolean>(false);
   const [currentMedia, setCurrentMedia] = useState<MediaItem | null>(null);
-  const [isPlaying, setIsPlaying] = useState(false);
-  const [volume, setVolume] = useState(50);
-  const [slideshowSettings, setSlideshowSettings] = useState({
+  const [isPlaying, setIsPlaying] = useState<boolean>(false);
+  const [volume, setVolume] = useState<number>(50);
+  const [slideshowSettings, setSlideshowSettings] = useState<{
+    interval: number;
+    transition: string;
+    showMetadata: boolean;
+    loop: boolean;
+  }>({
     interval: 5,
     transition: 'fade',
     showMetadata: true,
@@ -39,9 +64,10 @@ export function SmartTVCasting() {
   useEffect(() => {
     initializeCasting();
     return () => cleanup();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  const initializeCasting = async () => {
+  const initializeCasting = async (): Promise<void> => {
     // Initialize different casting protocols
     await Promise.all([
       initializeChromecast(),
@@ -51,7 +77,7 @@ export function SmartTVCasting() {
     ]);
   };
 
-  const initializeChromecast = async () => {
+  const initializeChromecast = async (): Promise<void> => {
     if ('chrome' in window && window.chrome?.cast) {
       try {
         const context = cast.framework.CastContext.getInstance();
@@ -60,9 +86,10 @@ export function SmartTVCasting() {
           autoJoinPolicy: chrome.cast.AutoJoinPolicy.ORIGIN_SCOPED
         });
 
+        // Use unknown for cast, and cast event handler to (evt: Event) => void
         context.addEventListener(
-          cast.framework.CastContextEventType.SESSION_STATE_CHANGED,
-          handleChromecastSessionChange
+          ((window.cast as any)?.framework?.CastContextEventType?.SESSION_STATE_CHANGED ?? 'SESSION_STATE_CHANGED'),
+          (evt: Event) => handleChromecastSessionChange(evt as { sessionState: string })
         );
         
         // Discover Chromecast devices
@@ -84,7 +111,7 @@ export function SmartTVCasting() {
     }
   };
 
-  const initializeAirPlay = async () => {
+  const initializeAirPlay = async (): Promise<void> => {
     // AirPlay detection for Safari/iOS
     if ('WebKitPlaybackTargetAvailabilityEvent' in window) {
       try {
@@ -96,7 +123,7 @@ export function SmartTVCasting() {
     }
   };
 
-  const initializeMiracast = async () => {
+  const initializeMiracast = async (): Promise<void> => {
     // Miracast/DLNA discovery
     if ('presentation' in navigator && navigator.presentation.defaultRequest) {
       try {
@@ -108,7 +135,7 @@ export function SmartTVCasting() {
     }
   };
 
-  const discoverSmartTVs = async () => {
+  const discoverSmartTVs = async (): Promise<void> => {
     // Discover smart TVs via network scanning
     try {
       const devices = await scanNetworkForTVs();
@@ -182,7 +209,7 @@ export function SmartTVCasting() {
     ];
   };
 
-  const handleChromecastSessionChange = (event: any) => {
+  const handleChromecastSessionChange = (event: { sessionState: string }) => {
     const session = event.sessionState;
     if (session === cast.framework.SessionState.SESSION_STARTED) {
       const castSession = cast.framework.CastContext.getInstance().getCurrentSession();
@@ -204,7 +231,7 @@ export function SmartTVCasting() {
     }
   };
 
-  const scanForDevices = async () => {
+  const scanForDevices = async (): Promise<void> => {
     setIsScanning(true);
     try {
       await initializeCasting();
@@ -213,49 +240,52 @@ export function SmartTVCasting() {
     }
   };
 
-  const connectToDevice = async (device: CastDevice) => {
+  const connectToDevice = async (device: CastDevice): Promise<void> => {
     if (device.status === 'busy') return;
 
     try {
       switch (device.type) {
-        case 'chromecast':
+        case 'chromecast': {
           await connectToChromecast(device);
           break;
-        case 'airplay':
+        }
+        case 'airplay': {
           await connectToAirPlay(device);
           break;
-        case 'smart_tv':
+        }
+        case 'smart_tv': {
           await connectToSmartTV(device);
           break;
-        case 'miracast':
+        }
+        case 'miracast': {
           await connectToMiracast(device);
           break;
+        }
       }
-      
-      setConnectedDevice({...device, status: 'connected'});
+      setConnectedDevice({ ...device, status: 'connected' });
     } catch (error) {
       console.error('Failed to connect to device:', error);
     }
   };
 
-  const connectToChromecast = async (device: CastDevice) => {
+  const connectToChromecast = async (device: CastDevice): Promise<void> => {
     if ('chrome' in window && window.chrome?.cast) {
       const context = cast.framework.CastContext.getInstance();
       await context.requestSession();
     }
   };
 
-  const connectToAirPlay = async (device: CastDevice) => {
+  const connectToAirPlay = async (device: CastDevice): Promise<void> => {
     // AirPlay connection logic
     console.log('Connecting to AirPlay device:', device.name);
   };
 
-  const connectToSmartTV = async (device: CastDevice) => {
+  const connectToSmartTV = async (device: CastDevice): Promise<void> => {
     // Smart TV connection (could use WebSocket, REST API, or proprietary protocol)
     console.log('Connecting to Smart TV:', device.name);
   };
 
-  const connectToMiracast = async (device: CastDevice) => {
+  const connectToMiracast = async (device: CastDevice): Promise<void> => {
     // Miracast connection
     if (navigator.presentation?.defaultRequest) {
       try {
@@ -267,7 +297,7 @@ export function SmartTVCasting() {
     }
   };
 
-  const castMedia = async (media: MediaItem) => {
+  const castMedia = async (media: MediaItem): Promise<void> => {
     if (!connectedDevice) return;
 
     try {
@@ -293,36 +323,34 @@ export function SmartTVCasting() {
     }
   };
 
-  const castToChromecast = async (media: MediaItem) => {
-    const context = cast.framework.CastContext.getInstance();
+  const castToChromecast = async (media: MediaItem): Promise<void> => {
+    const context = (window as any).cast.framework.CastContext.getInstance();
     const session = context.getCurrentSession();
-    
     if (session) {
-      const mediaInfo = new chrome.cast.media.MediaInfo(media.url, media.type === 'video' ? 'video/mp4' : 'image/jpeg');
-      mediaInfo.metadata = new chrome.cast.media.GenericMediaMetadata();
+      const mediaInfo = new (window as any).chrome.cast.media.MediaInfo(media.url, media.type === 'video' ? 'video/mp4' : 'image/jpeg');
+      mediaInfo.metadata = new (window as any).chrome.cast.media.GenericMediaMetadata();
       mediaInfo.metadata.title = media.title;
-      
-      const request = new chrome.cast.media.LoadRequest(mediaInfo);
+      const request = new (window as any).chrome.cast.media.LoadRequest(mediaInfo);
       await session.loadMedia(request);
     }
   };
 
-  const castToAirPlay = async (media: MediaItem) => {
+  const castToAirPlay = async (media: MediaItem): Promise<void> => {
     // AirPlay casting implementation
     console.log('Casting to AirPlay:', media.title);
   };
 
-  const castToSmartTV = async (media: MediaItem) => {
+  const castToSmartTV = async (media: MediaItem): Promise<void> => {
     // Smart TV casting implementation
     console.log('Casting to Smart TV:', media.title);
   };
 
-  const castToMiracast = async (media: MediaItem) => {
+  const castToMiracast = async (media: MediaItem): Promise<void> => {
     // Miracast casting implementation
     console.log('Casting to Miracast:', media.title);
   };
 
-  const startSlideshow = async (photos: MediaItem[]) => {
+  const startSlideshow = async (photos: MediaItem[]): Promise<void> => {
     if (!connectedDevice) return;
 
     const slideshow: MediaItem = {
@@ -339,19 +367,20 @@ export function SmartTVCasting() {
     await castMedia(slideshow);
   };
 
-  const controlPlayback = async (action: 'play' | 'pause' | 'stop' | 'next' | 'previous') => {
+  const controlPlayback = async (action: 'play' | 'pause' | 'stop' | 'next' | 'previous'): Promise<void> => {
     if (!connectedDevice || !currentMedia) return;
 
     try {
       switch (connectedDevice.type) {
-        case 'chromecast':
+        case 'chromecast': {
           await controlChromecastPlayback(action);
           break;
-        default:
+        }
+        default: {
           // Handle other device types
           break;
+        }
       }
-      
       if (action === 'play') setIsPlaying(true);
       if (action === 'pause' || action === 'stop') setIsPlaying(false);
     } catch (error) {
@@ -359,70 +388,71 @@ export function SmartTVCasting() {
     }
   };
 
-  const controlChromecastPlayback = async (action: string) => {
-    const context = cast.framework.CastContext.getInstance();
+  const controlChromecastPlayback = async (action: string): Promise<void> => {
+    const context = (window as any).cast.framework.CastContext.getInstance();
     const session = context.getCurrentSession();
-    
     if (session) {
       const media = session.getMediaSession();
       if (media) {
         switch (action) {
           case 'play':
-            await media.play(new chrome.cast.media.PlayRequest());
+            await media.play(new (window as any).chrome.cast.media.PlayRequest());
             break;
           case 'pause':
-            await media.pause(new chrome.cast.media.PauseRequest());
+            await media.pause(new (window as any).chrome.cast.media.PauseRequest());
             break;
           case 'stop':
-            await media.stop(new chrome.cast.media.StopRequest());
+            await media.stop(new (window as any).chrome.cast.media.StopRequest());
             break;
         }
       }
     }
   };
 
-  const adjustVolume = async (newVolume: number) => {
+  const adjustVolume = async (newVolume: number): Promise<void> => {
     if (!connectedDevice) return;
 
     setVolume(newVolume);
-    
     try {
       switch (connectedDevice.type) {
-        case 'chromecast':
-          const context = cast.framework.CastContext.getInstance();
-          const session = context.getCurrentSession();
+        case 'chromecast': {
+          const context = (window.cast as any)?.framework?.CastContext.getInstance();
+          const session = context?.getCurrentSession();
           if (session) {
-            const volumeRequest = new chrome.cast.VolumeRequest();
+            const volumeRequest = new (window.chrome as any).cast.VolumeRequest();
             volumeRequest.level = newVolume / 100;
             await session.setVolume(volumeRequest);
           }
           break;
-        default:
+        }
+        default: {
           // Handle other device types
           break;
+        }
       }
     } catch (error) {
       console.error('Volume control failed:', error);
     }
   };
 
-  const disconnect = async () => {
+  const disconnect = async (): Promise<void> => {
     if (!connectedDevice) return;
 
     try {
       switch (connectedDevice.type) {
-        case 'chromecast':
-          const context = cast.framework.CastContext.getInstance();
+        case 'chromecast': {
+          const context = (window as any).cast.framework.CastContext.getInstance();
           const session = context.getCurrentSession();
           if (session) {
             await session.endSession(true);
           }
           break;
-        default:
+        }
+        default: {
           // Handle other device types
           break;
+        }
       }
-      
       setConnectedDevice(null);
       setCurrentMedia(null);
       setIsPlaying(false);
@@ -431,7 +461,7 @@ export function SmartTVCasting() {
     }
   };
 
-  const generateQRCode = () => {
+  const generateQRCode = (): string => {
     // Generate QR code for easy mobile connection
     const qrData = {
       type: 'cast_session',
@@ -441,7 +471,7 @@ export function SmartTVCasting() {
     return JSON.stringify(qrData);
   };
 
-  const cleanup = () => {
+  const cleanup = (): void => {
     // Cleanup event listeners and sessions
     if (connectedDevice) {
       disconnect();
@@ -564,6 +594,8 @@ export function SmartTVCasting() {
               <button
                 onClick={() => {/* Generate QR code for mobile control */}}
                 className="p-2 bg-white/10 rounded-lg hover:bg-white/20 transition-colors"
+                title="Show QR code for mobile control"
+                aria-label="Show QR code for mobile control"
               >
                 <QrCode size={18} className="text-gray-300" />
               </button>
@@ -584,8 +616,10 @@ export function SmartTVCasting() {
                 <label className="text-sm text-gray-300">Quality:</label>
                 <select
                   value={castQuality}
-                  onChange={(e) => setCastQuality(e.target.value as any)}
+                  onChange={(e) => setCastQuality(e.target.value as 'auto' | '720p' | '1080p' | '4k')}
                   className="bg-white/10 rounded-lg px-2 py-1 text-sm text-white border border-white/20"
+                  title="Select casting quality"
+                  aria-label="Casting quality"
                 >
                   <option value="auto">Auto</option>
                   <option value="720p">720p</option>
@@ -606,12 +640,16 @@ export function SmartTVCasting() {
                   <button
                     onClick={() => controlPlayback('previous')}
                     className="p-2 bg-white/10 rounded-lg hover:bg-white/20 transition-colors"
+                    title="Previous"
+                    aria-label="Previous"
                   >
                     <SkipBack size={20} className="text-white" />
                   </button>
                   <button
                     onClick={() => controlPlayback(isPlaying ? 'pause' : 'play')}
                     className="p-3 bg-blue-500/20 rounded-xl hover:bg-blue-500/30 transition-colors"
+                    title={isPlaying ? 'Pause' : 'Play'}
+                    aria-label={isPlaying ? 'Pause' : 'Play'}
                   >
                     {isPlaying ? (
                       <Pause size={24} className="text-blue-300" />
@@ -622,6 +660,8 @@ export function SmartTVCasting() {
                   <button
                     onClick={() => controlPlayback('next')}
                     className="p-2 bg-white/10 rounded-lg hover:bg-white/20 transition-colors"
+                    title="Next"
+                    aria-label="Next"
                   >
                     <SkipForward size={20} className="text-white" />
                   </button>
@@ -636,6 +676,8 @@ export function SmartTVCasting() {
                     value={volume}
                     onChange={(e) => adjustVolume(parseInt(e.target.value))}
                     className="flex-1 h-2 bg-white/10 rounded-lg appearance-none slider"
+                    title="Adjust volume"
+                    aria-label="Volume slider"
                   />
                   <span className="text-sm text-gray-300 w-10">{volume}%</span>
                 </div>
@@ -670,6 +712,8 @@ export function SmartTVCasting() {
                   value={slideshowSettings.interval}
                   onChange={(e) => setSlideshowSettings(prev => ({ ...prev, interval: parseInt(e.target.value) }))}
                   className="w-full h-2 bg-white/10 rounded-lg appearance-none slider"
+                  title="Slideshow interval in seconds"
+                  aria-label="Slideshow interval"
                 />
                 <div className="text-sm text-gray-400 mt-1">{slideshowSettings.interval}s per photo</div>
               </div>
@@ -680,6 +724,8 @@ export function SmartTVCasting() {
                   value={slideshowSettings.transition}
                   onChange={(e) => setSlideshowSettings(prev => ({ ...prev, transition: e.target.value }))}
                   className="w-full bg-white/10 rounded-lg px-3 py-2 text-white border border-white/20"
+                  title="Select slideshow transition style"
+                  aria-label="Slideshow transition"
                 >
                   <option value="fade">Fade</option>
                   <option value="slide">Slide</option>
@@ -695,6 +741,8 @@ export function SmartTVCasting() {
                   checked={slideshowSettings.showMetadata}
                   onChange={(e) => setSlideshowSettings(prev => ({ ...prev, showMetadata: e.target.checked }))}
                   className="rounded"
+                  title="Show photo details in slideshow"
+                  aria-label="Show photo details"
                 />
                 <label htmlFor="showMetadata" className="text-sm text-gray-300">Show photo details</label>
               </div>
@@ -706,6 +754,8 @@ export function SmartTVCasting() {
                   checked={slideshowSettings.loop}
                   onChange={(e) => setSlideshowSettings(prev => ({ ...prev, loop: e.target.checked }))}
                   className="rounded"
+                  title="Loop slideshow"
+                  aria-label="Loop slideshow"
                 />
                 <label htmlFor="loop" className="text-sm text-gray-300">Loop slideshow</label>
               </div>

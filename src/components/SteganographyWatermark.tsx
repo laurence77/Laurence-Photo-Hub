@@ -302,7 +302,7 @@ const SteganographyWatermark = () => {
                   <div className="space-y-2">
                     <Label>Steganography Method</Label>
                     <Select value={settings.method} onValueChange={(v) => setSettings(prev => ({ ...prev, method: v as any }))}>
-                      <SelectTrigger>
+                      <SelectTrigger title="Select steganography method" aria-label="Steganography method">
                         <SelectValue />
                       </SelectTrigger>
                       <SelectContent>
@@ -325,6 +325,8 @@ const SteganographyWatermark = () => {
                       value={settings.strength}
                       onChange={(e) => setSettings(prev => ({ ...prev, strength: parseInt(e.target.value) }))}
                       className="w-full h-2 bg-gray-200 rounded-lg appearance-none cursor-pointer"
+                      title="Adjust watermark strength"
+                      aria-label="Watermark strength"
                     />
                     <div className="flex justify-between text-xs text-muted-foreground">
                       <span>Subtle</span>
@@ -363,6 +365,8 @@ const SteganographyWatermark = () => {
                       value={settings.payload}
                       onChange={(e) => setSettings(prev => ({ ...prev, payload: e.target.value }))}
                       rows={4}
+                      title="Watermark payload"
+                      aria-label="Watermark payload"
                     />
                     <p className="text-sm text-muted-foreground">
                       Max 500 characters. Will be embedded invisibly in the image.
@@ -611,7 +615,7 @@ const SteganographyWatermark = () => {
                     <div className="space-y-2">
                       <Label>Default Method</Label>
                       <Select value={settings.method} onValueChange={(v) => setSettings(prev => ({ ...prev, method: v as any }))}>
-                        <SelectTrigger>
+                        <SelectTrigger title="Select default method" aria-label="Default method">
                           <SelectValue />
                         </SelectTrigger>
                         <SelectContent>
@@ -631,6 +635,8 @@ const SteganographyWatermark = () => {
                         value={settings.strength}
                         onChange={(e) => setSettings(prev => ({ ...prev, strength: parseInt(e.target.value) }))}
                         className="w-full"
+                        title="Default watermark strength"
+                        aria-label="Default watermark strength"
                       />
                       <div className="text-center text-sm text-muted-foreground">
                         {settings.strength}%

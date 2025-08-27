@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import { getImagePath } from '@/lib/utils';
 import { Printer, Wifi, MapPin, Clock, Package, Star, Settings, Zap } from 'lucide-react';
 
@@ -47,61 +47,11 @@ export function SmartPrinting() {
   const [deliveryOption, setDeliveryOption] = useState<'pickup' | 'delivery' | 'drone'>('pickup');
   const [isLocating, setIsLocating] = useState(false);
 
-  useEffect(() => {
-    findNearbyProviders();
-  }, []);
 
-  const findNearbyProviders = async () => {
-    setIsLocating(true);
-    
-    try {
-      // Get user location
-      const position = await getCurrentPosition();
-      
-      // Find nearby print providers
-      const providers = await discoverPrintProviders(position.coords);
-      setNearbyProviders(providers);
-    } catch (error) {
-      console.error('Failed to find providers:', error);
-      // Use mock data if location fails
-      setNearbyProviders(getMockProviders());
-    } finally {
-      setIsLocating(false);
-    }
-  };
 
-  const getCurrentPosition = (): Promise<GeolocationPosition> => {
-    return new Promise((resolve, reject) => {
-      if (!navigator.geolocation) {
-        reject(new Error('Geolocation not supported'));
-        return;
-      }
 
-      navigator.geolocation.getCurrentPosition(resolve, reject, {
-        enableHighAccuracy: true,
-        timeout: 10000,
-        maximumAge: 300000 // 5 minutes
-      });
-    });
-  };
-
-  const discoverPrintProviders = async (coords: GeolocationCoordinates): Promise<PrintProvider[]> => {
-    // In production, this would call real APIs like:
-    // - CVS Photo API
-    // - Walgreens Photo API  
-    // - Local print shop APIs
-    // - Drone delivery services
-    
-    return getMockProviders().map(provider => ({
-      ...provider,
-      location: {
-        ...provider.location,
-        distance: Math.random() * 5 + 0.5 // 0.5-5.5 miles
-      }
-    })).sort((a, b) => a.location.distance - b.location.distance);
-  };
-
-  const getMockProviders = (): PrintProvider[] => {
+  // Stable mock providers
+  const getMockProviders = useCallback((): PrintProvider[] => {
     return [
       {
         id: 'cvs-main',
@@ -217,7 +167,52 @@ export function SmartPrinting() {
         specialties: ['budget_friendly', 'self_service', 'id_photos']
       }
     ];
-  };
+  }, []);
+
+  // Stable geolocation
+  const getCurrentPosition = useCallback((): Promise<GeolocationPosition> => {
+    return new Promise((resolve, reject) => {
+      if (!navigator.geolocation) {
+        reject(new Error('Geolocation not supported'));
+        return;
+      }
+      navigator.geolocation.getCurrentPosition(resolve, reject, {
+        enableHighAccuracy: true,
+        timeout: 10000,
+        maximumAge: 300000 // 5 minutes
+      });
+    });
+  }, []);
+
+  // Stable discover providers
+  const discoverPrintProviders = useCallback(async (coords: GeolocationCoordinates): Promise<PrintProvider[]> => {
+    return getMockProviders().map(provider => ({
+      ...provider,
+      location: {
+        ...provider.location,
+        distance: Math.random() * 5 + 0.5 // 0.5-5.5 miles
+      }
+    })).sort((a, b) => a.location.distance - b.location.distance);
+  }, [getMockProviders]);
+
+  // Stable findNearbyProviders
+  const findNearbyProviders = useCallback(async () => {
+    setIsLocating(true);
+    try {
+      // Get user location
+      const position = await getCurrentPosition();
+      // Find nearby print providers
+      const providers = await discoverPrintProviders(position.coords);
+      setNearbyProviders(providers);
+    } catch (error) {
+      console.error('Failed to find providers:', error);
+      // Use mock data if location fails
+      setNearbyProviders(getMockProviders());
+    } finally {
+      setIsLocating(false);
+    }
+  }, [discoverPrintProviders, getCurrentPosition, getMockProviders]);
+
 
   const createPrintJob = async (providerId: string) => {
     const provider = nearbyProviders.find(p => p.id === providerId);
@@ -273,13 +268,13 @@ export function SmartPrinting() {
         setPrintJobs(prev =>
           prev.map(job =>
             job.id === jobId
-              ? { ...job, status: stages[currentStage] as any }
+              ? { ...job, status: stages[currentStage] as PrintJob['status'] }
               : job
           )
         );
 
         if (jobId === currentJob?.id) {
-          setCurrentJob(prev => prev ? { ...prev, status: stages[currentStage] as any } : null);
+          setCurrentJob(prev => prev ? { ...prev, status: stages[currentStage] as PrintJob['status'] } : null);
         }
 
         currentStage++;
@@ -330,6 +325,10 @@ export function SmartPrinting() {
     { id: '3', url: getImagePath('/uploads/wedding3.jpg'), title: 'Family Portrait' },
     { id: '4', url: getImagePath('/uploads/wedding4.jpg'), title: 'Reception' }
   ];
+
+  useEffect(() => {
+    findNearbyProviders();
+  }, [findNearbyProviders]);
 
   return (
     <div className="bg-white/10 backdrop-blur-md rounded-2xl border border-white/20 p-6">
@@ -402,6 +401,7 @@ export function SmartPrinting() {
                 value={selectedFormat}
                 onChange={(e) => setSelectedFormat(e.target.value)}
                 className="w-full bg-white/10 rounded-xl px-3 py-2 text-white border border-white/20"
+                title="Select print format"
               >
                 <option value="4x6">4x6 Standard</option>
                 <option value="5x7">5x7 Medium</option>
@@ -421,6 +421,8 @@ export function SmartPrinting() {
                 value={quantity}
                 onChange={(e) => setQuantity(parseInt(e.target.value) || 1)}
                 className="w-full bg-white/10 rounded-xl px-3 py-2 text-white border border-white/20"
+                title="Enter quantity"
+                placeholder="Enter quantity"
               />
             </div>
 
@@ -428,9 +430,12 @@ export function SmartPrinting() {
               <label className="block text-sm text-gray-300 mb-2">Delivery</label>
               <select
                 value={deliveryOption}
-                onChange={(e) => setDeliveryOption(e.target.value as any)}
+                onChange={(e) => setDeliveryOption(e.target.value as 'pickup' | 'delivery' | 'drone')}
                 className="w-full bg-white/10 rounded-xl px-3 py-2 text-white border border-white/20"
+                title="Select delivery option"
               >
+
+
                 <option value="pickup">Store Pickup</option>
                 <option value="delivery">Home Delivery</option>
                 <option value="drone">Drone Delivery</option>

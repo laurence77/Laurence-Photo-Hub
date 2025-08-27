@@ -8,7 +8,6 @@ import { Progress } from '@/components/ui/progress';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { 
   Camera,
-  Sphere,
   Wifi,
   Bluetooth,
   Usb,
@@ -47,6 +46,8 @@ import {
   Power,
   WifiOff
 } from 'lucide-react';
+// Use a fallback icon for Sphere
+const Sphere = Globe;
 
 interface Camera360Device {
   id: string;
@@ -204,7 +205,7 @@ const Camera360Capture = ({
       setSelectedDevice(connectedDevicesList[0]);
       onDeviceConnected?.(connectedDevicesList[0]);
     }
-  }, [onDeviceConnected]);
+  }, [onDeviceConnected, mockDevices]);
 
   // Recording timer
   useEffect(() => {
@@ -481,6 +482,7 @@ const Camera360Capture = ({
                           className="w-full mt-1 p-2 text-sm border rounded vision-pro-rounded"
                           value={captureSettings.resolution}
                           onChange={(e) => setCaptureSettings(prev => ({ ...prev, resolution: e.target.value }))}
+                          title="Select resolution"
                         >
                           <option value="4K">4K</option>
                           <option value="5.7K">5.7K</option>
@@ -494,7 +496,8 @@ const Camera360Capture = ({
                         <select 
                           className="w-full mt-1 p-2 text-sm border rounded vision-pro-rounded"
                           value={captureSettings.format}
-                          onChange={(e) => setCaptureSettings(prev => ({ ...prev, format: e.target.value as any }))}
+                          onChange={(e) => setCaptureSettings(prev => ({ ...prev, format: e.target.value as '360' | 'timelapse' | 'hyperlapse' | 'bullet-time' }))}
+                          title="Select format"
                         >
                           <option value="360">360° Video</option>
                           <option value="timelapse">360° Timelapse</option>
@@ -509,6 +512,7 @@ const Camera360Capture = ({
                           className="w-full mt-1 p-2 text-sm border rounded vision-pro-rounded"
                           value={captureSettings.fps}
                           onChange={(e) => setCaptureSettings(prev => ({ ...prev, fps: Number(e.target.value) }))}
+                          title="Select frames per second"
                         >
                           <option value={24}>24 FPS</option>
                           <option value={30}>30 FPS</option>
@@ -631,7 +635,7 @@ const Camera360Capture = ({
                 </div>
 
                 {livePreview || currentSession ? (
-                  <div className="relative bg-black vision-pro-rounded overflow-hidden" style={{ height: '400px' }}>
+                  <div className="relative bg-black vision-pro-rounded overflow-hidden preview-360-height">
                     {/* 360° Preview Simulation */}
                     <div className="absolute inset-0 bg-gradient-to-br from-blue-900 via-purple-900 to-black flex items-center justify-center">
                       <div className="text-center text-white">

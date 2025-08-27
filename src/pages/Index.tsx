@@ -23,10 +23,10 @@ const Index = () => {
     document.querySelectorAll('a[href^="#"]').forEach(anchor => {
       anchor.addEventListener('click', function (e) {
         e.preventDefault();
-        
-        const targetId = this.getAttribute('href')?.substring(1);
+        const event = e as MouseEvent;
+        const target = event.currentTarget as HTMLAnchorElement;
+        const targetId = target.getAttribute('href')?.substring(1);
         if (!targetId) return;
-        
         const targetElement = document.getElementById(targetId);
         if (targetElement) {
           window.scrollTo({
@@ -261,6 +261,7 @@ const Index = () => {
               type="button"
               className="text-sm font-medium text-gray-600 hover:electric-accent spring-smooth px-3 py-2 vision-pro-rounded"
               onClick={() => scrollToSection('home')}
+              title="Go to Home section"
             >
               Home
             </button>
@@ -268,6 +269,7 @@ const Index = () => {
               type="button"
               className="text-sm font-medium text-gray-600 hover:electric-accent spring-smooth px-3 py-2 vision-pro-rounded"
               onClick={() => scrollToSection('features')}
+              title="View Features section"
             >
               Features
             </button>
@@ -275,6 +277,7 @@ const Index = () => {
               type="button"
               className="text-sm font-medium text-gray-600 hover:electric-accent spring-smooth px-3 py-2 vision-pro-rounded"
               onClick={() => scrollToSection('about')}
+              title="Learn more About us"
             >
               About
             </button>
@@ -282,6 +285,7 @@ const Index = () => {
               type="button"
               className="text-sm font-medium text-gray-600 hover:electric-accent spring-smooth px-3 py-2 vision-pro-rounded"
               onClick={() => scrollToSection('gallery')}
+              title="View Gallery section"
             >
               Gallery
             </button>
@@ -289,6 +293,7 @@ const Index = () => {
               type="button"
               className="text-sm font-medium text-gray-600 hover:electric-accent spring-smooth px-3 py-2 vision-pro-rounded"
               onClick={() => navigate('/events')}
+              title="Browse Public Events"
             >
               Public Events
             </button>
@@ -298,6 +303,7 @@ const Index = () => {
               size="sm"
               className="ml-4 glass-button electric-border electric-accent hover:electric-bg hover:text-white"
               onClick={() => setIsSignInModalOpen(true)}
+              title="Sign in to your account"
             >
               Sign In
             </Button>
@@ -311,6 +317,7 @@ const Index = () => {
               size="sm"
               className="border-white text-white hover:bg-white hover:text-black"
               onClick={() => setIsSignInModalOpen(true)}
+              title="Sign in to your account"
             >
               Sign In
             </Button>
@@ -339,7 +346,7 @@ const Index = () => {
             <FadeIn delay={200}>
               <h1 className="text-4xl md:text-5xl lg:text-6xl font-serif font-medium tracking-tight text-gradient-electric leading-tight mb-6 relative inline-block">
                 Laurence Photo Hub
-                <div className="camera-badge" onClick={openCamera}>
+                <div className="camera-badge" onClick={openCamera} title="Open camera for photo capture">
                   <Camera className="w-5 h-5" />
                 </div>
               </h1>
@@ -360,6 +367,7 @@ const Index = () => {
                   size="lg" 
                   className="electric-bg text-white hover:electric-glow text-lg px-8 vision-pro-rounded apple-spring"
                   onClick={() => scrollToSection('features')}
+                  title="Explore all features"
                 >
                   Explore Features
                 </Button>
@@ -368,6 +376,7 @@ const Index = () => {
                   variant="outline" 
                   className="glass-button electric-border electric-accent hover:electric-bg hover:text-white text-lg px-8"
                   onClick={() => scrollToSection('about')}
+                  title="Learn more about Laurence Photo Hub"
                 >
                   Learn More
                 </Button>
@@ -398,6 +407,7 @@ const Index = () => {
                 <div 
                   className="glass-card p-6 text-center group cursor-pointer transition-transform hover:scale-105"
                   onClick={() => handleFeatureClick(feature.id)}
+                  title={`View details for ${feature.title}`}
                 >
                   <div className="flex justify-center mb-4">
                     {feature.icon}
@@ -449,6 +459,7 @@ const Index = () => {
                   <div 
                     className="glass-card stats-card p-6 text-center cursor-pointer transition-transform hover:scale-105"
                     onClick={() => handleStatsClick('events')}
+                    title="View event analytics"
                   >
                     <Building className="w-8 h-8 text-orangery-600 mx-auto mb-3" />
                     <div className="text-2xl font-bold text-foreground mb-1">500+</div>
@@ -460,6 +471,7 @@ const Index = () => {
                   <div 
                     className="glass-card stats-card p-6 text-center cursor-pointer transition-transform hover:scale-105"
                     onClick={() => handleStatsClick('uptime')}
+                    title="View uptime statistics"
                   >
                     <TrendingUp className="w-8 h-8 text-orangery-600 mx-auto mb-3" />
                     <div className="text-2xl font-bold text-foreground mb-1">99.9%</div>
@@ -471,6 +483,7 @@ const Index = () => {
                   <div 
                     className="glass-card stats-card p-6 text-center cursor-pointer transition-transform hover:scale-105"
                     onClick={() => handleStatsClick('photos')}
+                    title="View photo sharing analytics"
                   >
                     <Users className="w-8 h-8 text-orangery-600 mx-auto mb-3" />
                     <div className="text-2xl font-bold text-foreground mb-1">50K+</div>
@@ -482,6 +495,7 @@ const Index = () => {
                   <div 
                     className="glass-card stats-card p-6 text-center cursor-pointer transition-transform hover:scale-105"
                     onClick={() => handleStatsClick('security')}
+                    title="View security analytics"
                   >
                     <Target className="w-8 h-8 text-orangery-600 mx-auto mb-3" />
                     <div className="text-2xl font-bold text-foreground mb-1">100%</div>
@@ -587,6 +601,7 @@ const Index = () => {
               <div 
                 className="flex items-center space-x-2 cursor-pointer hover:opacity-80 transition-opacity enhance-3d"
                 onClick={() => handleFooterClick('logo')}
+                title="Go to homepage"
               >
                 <Camera className="w-6 h-6 text-orangery-600" />
                 <span className="font-serif font-medium">Laurence Photo Hub</span>
@@ -595,18 +610,21 @@ const Index = () => {
                 <button 
                   onClick={() => handleFooterClick('privacy')} 
                   className="hover:text-foreground transition-colors cursor-pointer enhance-3d"
+                  title="View privacy policy"
                 >
                   Privacy
                 </button>
                 <button 
                   onClick={() => handleFooterClick('terms')} 
                   className="hover:text-foreground transition-colors cursor-pointer enhance-3d"
+                  title="View terms of service"
                 >
                   Terms
                 </button>
                 <button 
                   onClick={() => handleFooterClick('support')} 
                   className="hover:text-foreground transition-colors cursor-pointer enhance-3d"
+                  title="Get support"
                 >
                   Support
                 </button>
@@ -621,6 +639,7 @@ const Index = () => {
                   onClick={() => handleSocialClick('twitter')}
                   className="social-icon-btn p-2 rounded-full bg-white dark:bg-gray-700 shadow-md hover:shadow-lg transition-all enhance-3d"
                   aria-label="Follow us on Twitter"
+                  title="Follow us on Twitter"
                 >
                   <Twitter className="w-5 h-5 text-blue-400" />
                 </button>
@@ -628,6 +647,7 @@ const Index = () => {
                   onClick={() => handleSocialClick('instagram')}
                   className="social-icon-btn p-2 rounded-full bg-white dark:bg-gray-700 shadow-md hover:shadow-lg transition-all enhance-3d"
                   aria-label="Follow us on Instagram"
+                  title="Follow us on Instagram"
                 >
                   <Instagram className="w-5 h-5 text-pink-500" />
                 </button>
@@ -635,6 +655,7 @@ const Index = () => {
                   onClick={() => handleSocialClick('facebook')}
                   className="social-icon-btn p-2 rounded-full bg-white dark:bg-gray-700 shadow-md hover:shadow-lg transition-all enhance-3d"
                   aria-label="Follow us on Facebook"
+                  title="Follow us on Facebook"
                 >
                   <Facebook className="w-5 h-5 text-blue-600" />
                 </button>
@@ -642,6 +663,7 @@ const Index = () => {
                   onClick={() => handleSocialClick('linkedin')}
                   className="social-icon-btn p-2 rounded-full bg-white dark:bg-gray-700 shadow-md hover:shadow-lg transition-all enhance-3d"
                   aria-label="Connect with us on LinkedIn"
+                  title="Connect with us on LinkedIn"
                 >
                   <Linkedin className="w-5 h-5 text-blue-700" />
                 </button>
@@ -649,6 +671,7 @@ const Index = () => {
                   onClick={() => handleSocialClick('youtube')}
                   className="social-icon-btn p-2 rounded-full bg-white dark:bg-gray-700 shadow-md hover:shadow-lg transition-all enhance-3d"
                   aria-label="Subscribe to our YouTube channel"
+                  title="Subscribe to our YouTube channel"
                 >
                   <Youtube className="w-5 h-5 text-red-500" />
                 </button>
@@ -656,6 +679,7 @@ const Index = () => {
                   onClick={() => handleSocialClick('github')}
                   className="social-icon-btn p-2 rounded-full bg-white dark:bg-gray-700 shadow-md hover:shadow-lg transition-all enhance-3d"
                   aria-label="View our GitHub"
+                  title="View our GitHub"
                 >
                   <Github className="w-5 h-5 text-gray-700 dark:text-gray-300" />
                 </button>
@@ -707,9 +731,9 @@ const Index = () => {
                       ref={videoRef}
                       autoPlay
                       playsInline
-                      className="w-full h-96 object-cover"
-                      style={{ transform: 'scaleX(-1)' }} // Mirror for selfie view
+                      className="w-full h-96 object-cover mirror-selfie"
                     />
+
                     <div className="absolute inset-0 pointer-events-none">
                       <div className="absolute top-4 left-4 right-4 h-0.5 bg-white opacity-30"></div>
                       <div className="absolute bottom-4 left-4 right-4 h-0.5 bg-white opacity-30"></div>
