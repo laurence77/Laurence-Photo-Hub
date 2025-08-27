@@ -17,7 +17,7 @@ const App = () => (
       <Toaster />
       <Sonner />
       <BrowserRouter
-        basename="/Laurence-Photo-Hub"
+        basename={import.meta.env.PROD ? "/Laurence-Photo-Hub" : ""}
         future={{
           v7_startTransition: true,
           v7_relativeSplatPath: true
