@@ -11,7 +11,13 @@
     "lint": "eslint .",
     "preview": "vite preview",
     "deploy": "npm run build:prod && gh-pages -d dist",
-    "predeploy": "npm run build:prod"
+    "predeploy": "npm run build:prod",
+    "pr:checkout": "./scripts/claude-pr.sh checkout",
+    "pr:review": "./scripts/claude-pr.sh review",
+    "pr:fix": "./scripts/claude-pr.sh fix",
+    "pr:test": "./scripts/claude-pr.sh test",
+    "pr:docs": "./scripts/claude-pr.sh docs",
+    "pr:complete": "./scripts/claude-pr.sh complete"
   },
   "dependencies": {
     "@hookform/resolvers": "^3.10.0",
