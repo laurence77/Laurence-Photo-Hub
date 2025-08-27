@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { updateSEOTags, SEO_CONFIGS, insertStructuredData, trackPageView } from '@/utils/seoUtils';
+import { getImagePath } from '@/lib/utils';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import { 
@@ -60,7 +61,7 @@ const PublicEvents = () => {
           name: 'Laurence Photography',
           verified: true
         },
-        thumbnail: '/uploads/a0278ce1-b82d-4ed6-a186-14a9503ef65c.png',
+        thumbnail: getImagePath('/uploads/a0278ce1-b82d-4ed6-a186-14a9503ef65c.png'),
         stats: {
           photos: 234,
           reactions: 492,
@@ -80,7 +81,7 @@ const PublicEvents = () => {
           name: 'Corporate Events Pro',
           verified: true
         },
-        thumbnail: '/uploads/34a58283-8b82-48f9-88f4-2c88b069921d.png',
+        thumbnail: getImagePath('/uploads/34a58283-8b82-48f9-88f4-2c88b069921d.png'),
         stats: {
           photos: 156,
           reactions: 278,
@@ -100,7 +101,7 @@ const PublicEvents = () => {
           name: 'Family Moments',
           verified: false
         },
-        thumbnail: '/uploads/47f9a1d0-4458-400a-8fc0-79adf093cf18.png',
+        thumbnail: getImagePath('/uploads/47f9a1d0-4458-400a-8fc0-79adf093cf18.png'),
         stats: {
           photos: 89,
           reactions: 156,
@@ -120,7 +121,7 @@ const PublicEvents = () => {
           name: 'Anniversary Celebrations',
           verified: true
         },
-        thumbnail: '/uploads/af28398b-9e23-4e2b-9de1-bda457e09fd8.png',
+        thumbnail: getImagePath('/uploads/af28398b-9e23-4e2b-9de1-bda457e09fd8.png'),
         stats: {
           photos: 112,
           reactions: 234,
@@ -296,7 +297,7 @@ const PublicEvents = () => {
                       alt={featuredEvent.title}
                       className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
                       onError={(e) => {
-                        (e.target as HTMLImageElement).src = '/placeholder.svg';
+                        (e.target as HTMLImageElement).src = getImagePath('/placeholder.svg');
                       }}
                     />
                     <div className="absolute top-4 right-4">
@@ -392,7 +393,7 @@ const PublicEvents = () => {
                         alt={event.title}
                         className="w-full h-48 object-cover"
                         onError={(e) => {
-                          (e.target as HTMLImageElement).src = '/placeholder.svg';
+                          (e.target as HTMLImageElement).src = getImagePath('/placeholder.svg');
                         }}
                       />
                       <div className="absolute top-3 right-3">

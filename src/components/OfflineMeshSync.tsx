@@ -1,4 +1,5 @@
 import { useState, useEffect } from 'react';
+import { getImagePath } from '@/lib/utils';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Progress } from '@/components/ui/progress';
@@ -136,7 +137,7 @@ const OfflineMeshSync = () => {
       id: '1',
       filename: 'ceremony_kiss.jpg',
       size: 2456789,
-      thumbnail: '/uploads/a0278ce1-b82d-4ed6-a186-14a9503ef65c.png',
+      thumbnail: getImagePath('/uploads/a0278ce1-b82d-4ed6-a186-14a9503ef65c.png'),
       fromNode: 'Michael\'s Camera',
       syncedAt: new Date(Date.now() - 180000),
       status: 'completed',
@@ -147,7 +148,7 @@ const OfflineMeshSync = () => {
       id: '2',
       filename: 'group_celebration.jpg',
       size: 1987654,
-      thumbnail: '/uploads/34a58283-8b82-48f9-88f4-2c88b069921d.png',
+      thumbnail: getImagePath('/uploads/34a58283-8b82-48f9-88f4-2c88b069921d.png'),
       fromNode: 'Sarah\'s iPhone',
       syncedAt: new Date(Date.now() - 300000),
       status: 'downloading',
@@ -158,7 +159,7 @@ const OfflineMeshSync = () => {
       id: '3',
       filename: 'dance_floor_fun.mp4',
       size: 45678901,
-      thumbnail: '/uploads/47f9a1d0-4458-400a-8fc0-79adf093cf18.png',
+      thumbnail: getImagePath('/uploads/47f9a1d0-4458-400a-8fc0-79adf093cf18.png'),
       fromNode: 'Guest iPad Pro',
       syncedAt: new Date(Date.now() - 120000),
       status: 'pending',

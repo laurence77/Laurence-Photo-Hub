@@ -1,4 +1,5 @@
 import { useState, useEffect } from 'react';
+import { getImagePath } from '@/lib/utils';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Progress } from '@/components/ui/progress';
@@ -122,7 +123,7 @@ const FaceEmotionClustering = () => {
   const mockPhotos: PhotoWithFaces[] = [
     {
       id: '1',
-      url: '/uploads/a0278ce1-b82d-4ed6-a186-14a9503ef65c.png',
+      url: getImagePath('/uploads/a0278ce1-b82d-4ed6-a186-14a9503ef65c.png'),
       timestamp: new Date(Date.now() - 3600000),
       event: 'Wedding Reception',
       location: 'Garden Venue',
@@ -148,7 +149,7 @@ const FaceEmotionClustering = () => {
     },
     {
       id: '2',
-      url: '/uploads/34a58283-8b82-48f9-88f4-2c88b069921d.png',
+      url: getImagePath('/uploads/34a58283-8b82-48f9-88f4-2c88b069921d.png'),
       timestamp: new Date(Date.now() - 7200000),
       event: 'Reception Dance',
       location: 'Dance Floor',
@@ -181,7 +182,7 @@ const FaceEmotionClustering = () => {
       ],
       firstSeen: new Date(Date.now() - 14400000),
       lastSeen: new Date(Date.now() - 1800000),
-      representative: '/uploads/a0278ce1-b82d-4ed6-a186-14a9503ef65c.png',
+      representative: getImagePath('/uploads/a0278ce1-b82d-4ed6-a186-14a9503ef65c.png'),
       isVerified: true
     },
     {
@@ -196,7 +197,7 @@ const FaceEmotionClustering = () => {
       ],
       firstSeen: new Date(Date.now() - 12600000),
       lastSeen: new Date(Date.now() - 2400000),
-      representative: '/uploads/34a58283-8b82-48f9-88f4-2c88b069921d.png',
+      representative: getImagePath('/uploads/34a58283-8b82-48f9-88f4-2c88b069921d.png'),
       isVerified: false
     },
     {
@@ -211,7 +212,7 @@ const FaceEmotionClustering = () => {
       ],
       firstSeen: new Date(Date.now() - 10800000),
       lastSeen: new Date(Date.now() - 3000000),
-      representative: '/uploads/47f9a1d0-4458-400a-8fc0-79adf093cf18.png',
+      representative: getImagePath('/uploads/47f9a1d0-4458-400a-8fc0-79adf093cf18.png'),
       isVerified: false
     }
   ];

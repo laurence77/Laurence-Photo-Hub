@@ -1,4 +1,5 @@
 import { useState, useEffect } from 'react';
+import { getImagePath } from '@/lib/utils';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Progress } from '@/components/ui/progress';
@@ -143,7 +144,7 @@ const CreatorMonetization = () => {
   const mockPhotographer: Photographer = {
     id: '1',
     name: 'Alex Rodriguez',
-    avatar: '/uploads/photographer-avatar.jpg',
+    avatar: getImagePath('/uploads/photographer-avatar.jpg'),
     bio: 'Professional event photographer specializing in weddings, corporate events, and celebrations. 8+ years experience capturing life\'s precious moments.',
     specialties: ['Wedding Photography', 'Corporate Events', 'Portrait Sessions', 'Event Documentation'],
     rating: 4.9,
@@ -162,7 +163,7 @@ const CreatorMonetization = () => {
     {
       id: '1',
       photoId: 'photo_1',
-      photoUrl: '/uploads/a0278ce1-b82d-4ed6-a186-14a9503ef65c.png',
+      photoUrl: getImagePath('/uploads/a0278ce1-b82d-4ed6-a186-14a9503ef65c.png'),
       title: 'Wedding Ceremony Moment',
       licenseType: 'Commercial',
       price: 150,
@@ -175,7 +176,7 @@ const CreatorMonetization = () => {
     {
       id: '2',
       photoId: 'photo_2',
-      photoUrl: '/uploads/34a58283-8b82-48f9-88f4-2c88b069921d.png',
+      photoUrl: getImagePath('/uploads/34a58283-8b82-48f9-88f4-2c88b069921d.png'),
       title: 'Corporate Event Networking',
       licenseType: 'Extended',
       price: 75,
@@ -262,7 +263,7 @@ const CreatorMonetization = () => {
     const createdLicense: PhotoLicense = {
       id: Date.now().toString(),
       photoId: `photo_${Date.now()}`,
-      photoUrl: '/uploads/a0278ce1-b82d-4ed6-a186-14a9503ef65c.png',
+      photoUrl: getImagePath('/uploads/a0278ce1-b82d-4ed6-a186-14a9503ef65c.png'),
       title: newLicense.title,
       licenseType: newLicense.licenseType,
       price: newLicense.price,

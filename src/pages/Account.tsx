@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { getImagePath } from '@/lib/utils';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Avatar, AvatarFallback } from '@/components/ui/avatar';
@@ -31,9 +32,9 @@ const Account = () => {
   ];
 
   const albums = [
-    { id: 1, name: 'Summer Wedding 2024', photos: 156, thumbnail: '/uploads/a0278ce1-b82d-4ed6-a186-14a9503ef65c.png' },
-    { id: 2, name: 'Corporate Retreat', photos: 89, thumbnail: '/uploads/34a58283-8b82-48f9-88f4-2c88b069921d.png' },
-    { id: 3, name: 'Family Portraits', photos: 34, thumbnail: '/uploads/47f9a1d0-4458-400a-8fc0-79adf093cf18.png' },
+    { id: 1, name: 'Summer Wedding 2024', photos: 156, thumbnail: getImagePath('/uploads/a0278ce1-b82d-4ed6-a186-14a9503ef65c.png') },
+    { id: 2, name: 'Corporate Retreat', photos: 89, thumbnail: getImagePath('/uploads/34a58283-8b82-48f9-88f4-2c88b069921d.png') },
+    { id: 3, name: 'Family Portraits', photos: 34, thumbnail: getImagePath('/uploads/47f9a1d0-4458-400a-8fc0-79adf093cf18.png') },
   ];
 
   const events = [

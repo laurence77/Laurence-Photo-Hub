@@ -1,4 +1,5 @@
 import { useState, useEffect, useRef } from 'react';
+import { getImagePath } from '@/lib/utils';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Progress } from '@/components/ui/progress';
@@ -90,7 +91,7 @@ const AISmartReels = () => {
     {
       id: '1',
       type: 'photo',
-      url: '/uploads/a0278ce1-b82d-4ed6-a186-14a9503ef65c.png',
+      url: getImagePath('/uploads/a0278ce1-b82d-4ed6-a186-14a9503ef65c.png'),
       timestamp: Date.now() - 3600000,
       emotions: ['joy', 'love', 'excitement'],
       energy: 8.5,
@@ -100,7 +101,7 @@ const AISmartReels = () => {
     {
       id: '2',
       type: 'video',
-      url: '/uploads/34a58283-8b82-48f9-88f4-2c88b069921d.png',
+      url: getImagePath('/uploads/34a58283-8b82-48f9-88f4-2c88b069921d.png'),
       timestamp: Date.now() - 3000000,
       emotions: ['celebration', 'happiness'],
       energy: 9.1,
@@ -111,7 +112,7 @@ const AISmartReels = () => {
     {
       id: '3',
       type: 'photo',
-      url: '/uploads/47f9a1d0-4458-400a-8fc0-79adf093cf18.png',
+      url: getImagePath('/uploads/47f9a1d0-4458-400a-8fc0-79adf093cf18.png'),
       timestamp: Date.now() - 1800000,
       emotions: ['peaceful', 'serene'],
       energy: 6.2,
@@ -121,7 +122,7 @@ const AISmartReels = () => {
     {
       id: '4',
       type: 'video',
-      url: '/uploads/af28398b-9e23-4e2b-9de1-bda457e09fd8.png',
+      url: getImagePath('/uploads/af28398b-9e23-4e2b-9de1-bda457e09fd8.png'),
       timestamp: Date.now() - 900000,
       emotions: ['fun', 'energetic', 'playful'],
       energy: 9.8,

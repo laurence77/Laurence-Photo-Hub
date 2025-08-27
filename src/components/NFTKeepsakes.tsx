@@ -1,4 +1,5 @@
 import { useState, useEffect } from 'react';
+import { getImagePath } from '@/lib/utils';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Progress } from '@/components/ui/progress';
@@ -120,7 +121,7 @@ const NFTKeepsakes = () => {
       id: '1',
       title: 'Wedding Ceremony First Kiss',
       description: 'A magical moment captured forever - the first kiss as newlyweds under golden sunset light.',
-      imageUrl: '/uploads/a0278ce1-b82d-4ed6-a186-14a9503ef65c.png',
+      imageUrl: getImagePath('/uploads/a0278ce1-b82d-4ed6-a186-14a9503ef65c.png'),
       eventName: 'Sarah & Michael\'s Wedding',
       eventDate: new Date('2024-08-15'),
       edition: 1,
@@ -152,7 +153,7 @@ const NFTKeepsakes = () => {
       id: '2',
       title: 'Golden Hour Group Celebration',
       description: 'Friends and family celebrating together as the sun sets over the bay.',
-      imageUrl: '/uploads/34a58283-8b82-48f9-88f4-2c88b069921d.png',
+      imageUrl: getImagePath('/uploads/34a58283-8b82-48f9-88f4-2c88b069921d.png'),
       eventName: 'Sarah & Michael\'s Wedding',
       eventDate: new Date('2024-08-15'),
       edition: 12,
@@ -178,7 +179,7 @@ const NFTKeepsakes = () => {
       id: '3',
       title: 'First Dance Under Stars',
       description: 'An intimate first dance moment with city lights twinkling in the background.',
-      imageUrl: '/uploads/47f9a1d0-4458-400a-8fc0-79adf093cf18.png',
+      imageUrl: getImagePath('/uploads/47f9a1d0-4458-400a-8fc0-79adf093cf18.png'),
       eventName: 'Sarah & Michael\'s Wedding',
       eventDate: new Date('2024-08-15'),
       edition: 3,
@@ -250,7 +251,7 @@ const NFTKeepsakes = () => {
       id: Date.now().toString(),
       title: newKeepsake.title,
       description: newKeepsake.description,
-      imageUrl: '/uploads/a0278ce1-b82d-4ed6-a186-14a9503ef65c.png', // Mock image
+      imageUrl: getImagePath('/uploads/a0278ce1-b82d-4ed6-a186-14a9503ef65c.png'), // Mock image
       eventName: newKeepsake.eventName,
       eventDate: new Date(),
       edition: 1,
@@ -271,7 +272,7 @@ const NFTKeepsakes = () => {
       status: 'minted',
       unlockableContent: newKeepsake.includeUnlockableContent ? {
         type: 'photo',
-        url: '/uploads/unlockable-content.jpg',
+        url: getImagePath('/uploads/unlockable-content.jpg'),
         description: newKeepsake.unlockableDescription
       } : undefined
     };

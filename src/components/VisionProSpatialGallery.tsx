@@ -1,4 +1,5 @@
 import { useState, useEffect, useRef } from 'react';
+import { getImagePath } from '@/lib/utils';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
@@ -124,7 +125,7 @@ const VisionProSpatialGallery = ({
   const defaultSpatialPhotos: SpatialPhoto[] = [
     {
       id: '1',
-      url: '/uploads/a0278ce1-b82d-4ed6-a186-14a9503ef65c.png',
+      url: getImagePath('/uploads/a0278ce1-b82d-4ed6-a186-14a9503ef65c.png'),
       title: 'First Kiss',
       description: 'The magical moment of their first kiss as husband and wife',
       timestamp: '2024-09-15T18:30:00Z',
@@ -144,7 +145,7 @@ const VisionProSpatialGallery = ({
     },
     {
       id: '2',
-      url: '/uploads/34a58283-8b82-48f9-88f4-2c88b069921d.png',
+      url: getImagePath('/uploads/34a58283-8b82-48f9-88f4-2c88b069921d.png'),
       title: 'Golden Hour Portraits',
       description: 'Romantic portraits during the golden hour in the vineyard',
       timestamp: '2024-09-15T17:45:00Z',
@@ -164,7 +165,7 @@ const VisionProSpatialGallery = ({
     },
     {
       id: '3',
-      url: '/uploads/47f9a1d0-4458-400a-8fc0-79adf093cf18.png',
+      url: getImagePath('/uploads/47f9a1d0-4458-400a-8fc0-79adf093cf18.png'),
       title: 'Dancing Under Stars',
       description: 'The couple\'s first dance under the starlit sky',
       timestamp: '2024-09-15T21:15:00Z',
@@ -184,7 +185,7 @@ const VisionProSpatialGallery = ({
     },
     {
       id: '4',
-      url: '/uploads/af28398b-9e23-4e2b-9de1-bda457e09fd8.png',
+      url: getImagePath('/uploads/af28398b-9e23-4e2b-9de1-bda457e09fd8.png'),
       title: 'Joy with Family',
       description: 'Celebration and laughter with beloved family members',
       timestamp: '2024-09-15T19:20:00Z',
@@ -527,7 +528,7 @@ const VisionProSpatialGallery = ({
                       alt={photo.title}
                       className="w-full h-full object-cover vision-pro-rounded"
                       onError={(e) => {
-                        (e.target as HTMLImageElement).src = '/placeholder.svg';
+                        (e.target as HTMLImageElement).src = getImagePath('/placeholder.svg');
                       }}
                     />
                     

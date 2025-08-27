@@ -1,4 +1,5 @@
 import { useState, useEffect, useRef } from 'react';
+import { getImagePath } from '@/lib/utils';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Progress } from '@/components/ui/progress';
@@ -108,7 +109,7 @@ const AICaptioning = () => {
   const mockPhotos: Photo[] = [
     {
       id: '1',
-      url: '/uploads/a0278ce1-b82d-4ed6-a186-14a9503ef65c.png',
+      url: getImagePath('/uploads/a0278ce1-b82d-4ed6-a186-14a9503ef65c.png'),
       filename: 'wedding_ceremony.jpg',
       timestamp: new Date('2024-08-15T16:30:00'),
       location: 'Garden Venue, San Francisco',
@@ -121,7 +122,7 @@ const AICaptioning = () => {
     },
     {
       id: '2',
-      url: '/uploads/34a58283-8b82-48f9-88f4-2c88b069921d.png',
+      url: getImagePath('/uploads/34a58283-8b82-48f9-88f4-2c88b069921d.png'),
       filename: 'group_celebration.jpg',
       timestamp: new Date('2024-08-15T19:45:00'),
       location: 'Reception Hall',
@@ -134,7 +135,7 @@ const AICaptioning = () => {
     },
     {
       id: '3',
-      url: '/uploads/47f9a1d0-4458-400a-8fc0-79adf093cf18.png',
+      url: getImagePath('/uploads/47f9a1d0-4458-400a-8fc0-79adf093cf18.png'),
       filename: 'sunset_dance.jpg',
       timestamp: new Date('2024-08-15T20:15:00'),
       location: 'Terrace Overlooking Bay',

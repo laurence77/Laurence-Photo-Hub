@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { updateSEOTags, SEO_CONFIGS, generateEventStructuredData, insertStructuredData, trackPageView } from '@/utils/seoUtils';
+import { getImagePath } from '@/lib/utils';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import { Separator } from '@/components/ui/separator';
@@ -80,7 +81,7 @@ const EventRecap = () => {
       location: "Riverside Gardens, Napa Valley",
       organizer: {
         name: "Laurence Photography",
-        avatar: "/uploads/photographer-avatar.jpg"
+        avatar: getImagePath('/uploads/photographer-avatar.jpg')
       },
       stats: {
         totalPhotos: 234,
@@ -91,28 +92,28 @@ const EventRecap = () => {
       highlights: [
         {
           id: "1",
-          url: "/uploads/a0278ce1-b82d-4ed6-a186-14a9503ef65c.png",
+          url: getImagePath('/uploads/a0278ce1-b82d-4ed6-a186-14a9503ef65c.png'),
           caption: "The magical first kiss as husband and wife",
           reactions: 47,
           timestamp: "2024-09-15T18:30:00Z"
         },
         {
           id: "2", 
-          url: "/uploads/34a58283-8b82-48f9-88f4-2c88b069921d.png",
+          url: getImagePath('/uploads/34a58283-8b82-48f9-88f4-2c88b069921d.png'),
           caption: "Golden hour portraits in the vineyard",
           reactions: 38,
           timestamp: "2024-09-15T17:45:00Z"
         },
         {
           id: "3",
-          url: "/uploads/47f9a1d0-4458-400a-8fc0-79adf093cf18.png", 
+          url: getImagePath('/uploads/47f9a1d0-4458-400a-8fc0-79adf093cf18.png'), 
           caption: "Dancing under the stars",
           reactions: 52,
           timestamp: "2024-09-15T21:15:00Z"
         },
         {
           id: "4",
-          url: "/uploads/af28398b-9e23-4e2b-9de1-bda457e09fd8.png",
+          url: getImagePath('/uploads/af28398b-9e23-4e2b-9de1-bda457e09fd8.png'),
           caption: "Joy and celebration with loved ones",
           reactions: 41,
           timestamp: "2024-09-15T19:20:00Z"
@@ -120,10 +121,10 @@ const EventRecap = () => {
       ],
       slideshow: {
         photos: [
-          "/uploads/a0278ce1-b82d-4ed6-a186-14a9503ef65c.png",
-          "/uploads/34a58283-8b82-48f9-88f4-2c88b069921d.png",
-          "/uploads/47f9a1d0-4458-400a-8fc0-79adf093cf18.png",
-          "/uploads/af28398b-9e23-4e2b-9de1-bda457e09fd8.png"
+          getImagePath('/uploads/a0278ce1-b82d-4ed6-a186-14a9503ef65c.png'),
+          getImagePath('/uploads/34a58283-8b82-48f9-88f4-2c88b069921d.png'),
+          getImagePath('/uploads/47f9a1d0-4458-400a-8fc0-79adf093cf18.png'),
+          getImagePath('/uploads/af28398b-9e23-4e2b-9de1-bda457e09fd8.png')
         ],
         music: "romantic-ballad.mp3",
         duration: 3000
@@ -136,7 +137,7 @@ const EventRecap = () => {
       seoData: {
         metaTitle: "Sarah & John's Wedding - Beautiful Napa Valley Wedding Photos | Laurence Photo Hub",
         metaDescription: "Experience the magical wedding celebration of Sarah & John at Riverside Gardens. View stunning wedding photos, highlights, and memories from their special day in Napa Valley.",
-        ogImage: "/uploads/a0278ce1-b82d-4ed6-a186-14a9503ef65c.png",
+        ogImage: getImagePath('/uploads/a0278ce1-b82d-4ed6-a186-14a9503ef65c.png'),
         canonicalUrl: `https://laurencephotohub.com/recap/${eventId}`
       }
     };
@@ -345,7 +346,7 @@ const EventRecap = () => {
                   alt="Event highlight"
                   className="w-full h-96 object-cover"
                   onError={(e) => {
-                    (e.target as HTMLImageElement).src = '/placeholder.svg';
+                    (e.target as HTMLImageElement).src = getImagePath('/placeholder.svg');
                   }}
                 />
               </div>
@@ -377,7 +378,7 @@ const EventRecap = () => {
                   alt={`Slide ${currentSlide + 1}`}
                   className="w-full h-96 object-cover transition-all duration-500"
                   onError={(e) => {
-                    (e.target as HTMLImageElement).src = '/placeholder.svg';
+                    (e.target as HTMLImageElement).src = getImagePath('/placeholder.svg');
                   }}
                 />
                 
@@ -425,7 +426,7 @@ const EventRecap = () => {
                     alt={highlight.caption}
                     className="w-full h-64 object-cover transition-transform group-hover:scale-105"
                     onError={(e) => {
-                      (e.target as HTMLImageElement).src = '/placeholder.svg';
+                      (e.target as HTMLImageElement).src = getImagePath('/placeholder.svg');
                     }}
                   />
                   

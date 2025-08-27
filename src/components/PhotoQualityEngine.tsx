@@ -1,4 +1,5 @@
 import { useState, useEffect } from 'react';
+import { getImagePath } from '@/lib/utils';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Progress } from '@/components/ui/progress';
@@ -95,7 +96,7 @@ const PhotoQualityEngine = () => {
   const mockPhotos: PhotoAnalysis[] = [
     {
       id: '1',
-      url: '/uploads/a0278ce1-b82d-4ed6-a186-14a9503ef65c.png',
+      url: getImagePath('/uploads/a0278ce1-b82d-4ed6-a186-14a9503ef65c.png'),
       filename: 'wedding_ceremony_01.jpg',
       uploadedAt: new Date(Date.now() - 3600000),
       size: 2048576,
@@ -115,7 +116,7 @@ const PhotoQualityEngine = () => {
     },
     {
       id: '2',
-      url: '/uploads/34a58283-8b82-48f9-88f4-2c88b069921d.png',
+      url: getImagePath('/uploads/34a58283-8b82-48f9-88f4-2c88b069921d.png'),
       filename: 'wedding_ceremony_02.jpg',
       uploadedAt: new Date(Date.now() - 3580000),
       size: 1887435,
@@ -135,7 +136,7 @@ const PhotoQualityEngine = () => {
     },
     {
       id: '3',
-      url: '/uploads/47f9a1d0-4458-400a-8fc0-79adf093cf18.png',
+      url: getImagePath('/uploads/47f9a1d0-4458-400a-8fc0-79adf093cf18.png'),
       filename: 'reception_dance_blur.jpg',
       uploadedAt: new Date(Date.now() - 1800000),
       size: 1456789,
@@ -153,7 +154,7 @@ const PhotoQualityEngine = () => {
     },
     {
       id: '4',
-      url: '/uploads/af28398b-9e23-4e2b-9de1-bda457e09fd8.png',
+      url: getImagePath('/uploads/af28398b-9e23-4e2b-9de1-bda457e09fd8.png'),
       filename: 'group_photo_perfect.jpg',
       uploadedAt: new Date(Date.now() - 900000),
       size: 3245678,
@@ -171,7 +172,7 @@ const PhotoQualityEngine = () => {
     },
     {
       id: '5',
-      url: '/uploads/dabbf929-5dd0-4794-a011-fe43bf4b3418.png',
+      url: getImagePath('/uploads/dabbf929-5dd0-4794-a011-fe43bf4b3418.png'),
       filename: 'duplicate_test.jpg',
       uploadedAt: new Date(Date.now() - 600000),
       size: 2156789,

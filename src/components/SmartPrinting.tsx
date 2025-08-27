@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { getImagePath } from '@/lib/utils';
 import { Printer, Wifi, MapPin, Clock, Package, Star, Settings, Zap } from 'lucide-react';
 
 interface PrintProvider {
@@ -324,10 +325,10 @@ export function SmartPrinting() {
 
   // Mock photo selection
   const mockPhotos = [
-    { id: '1', url: '/uploads/wedding1.jpg', title: 'Wedding Ceremony' },
-    { id: '2', url: '/uploads/wedding2.jpg', title: 'First Dance' },
-    { id: '3', url: '/uploads/wedding3.jpg', title: 'Family Portrait' },
-    { id: '4', url: '/uploads/wedding4.jpg', title: 'Reception' }
+    { id: '1', url: getImagePath('/uploads/wedding1.jpg'), title: 'Wedding Ceremony' },
+    { id: '2', url: getImagePath('/uploads/wedding2.jpg'), title: 'First Dance' },
+    { id: '3', url: getImagePath('/uploads/wedding3.jpg'), title: 'Family Portrait' },
+    { id: '4', url: getImagePath('/uploads/wedding4.jpg'), title: 'Reception' }
   ];
 
   return (

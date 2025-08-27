@@ -1,4 +1,5 @@
 import { useState, useEffect, useRef } from 'react';
+import { getImagePath } from '@/lib/utils';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
@@ -76,10 +77,10 @@ const ARVRExperience = ({
 
   // Mock photos if none provided
   const defaultPhotos = [
-    '/uploads/a0278ce1-b82d-4ed6-a186-14a9503ef65c.png',
-    '/uploads/34a58283-8b82-48f9-88f4-2c88b069921d.png',
-    '/uploads/47f9a1d0-4458-400a-8fc0-79adf093cf18.png',
-    '/uploads/af28398b-9e23-4e2b-9de1-bda457e09fd8.png'
+    getImagePath('/uploads/a0278ce1-b82d-4ed6-a186-14a9503ef65c.png'),
+    getImagePath('/uploads/34a58283-8b82-48f9-88f4-2c88b069921d.png'),
+    getImagePath('/uploads/47f9a1d0-4458-400a-8fc0-79adf093cf18.png'),
+    getImagePath('/uploads/af28398b-9e23-4e2b-9de1-bda457e09fd8.png')
   ];
   
   const displayPhotos = photos.length > 0 ? photos : defaultPhotos;
@@ -384,7 +385,7 @@ const ARVRExperience = ({
                   alt={`VR Wedding Memory ${currentPhoto + 1}`}
                   className="w-full h-96 object-cover"
                   onError={(e) => {
-                    (e.target as HTMLImageElement).src = '/placeholder.svg';
+                    (e.target as HTMLImageElement).src = getImagePath('/placeholder.svg');
                   }}
                 />
                 
@@ -529,7 +530,7 @@ const ARVRExperience = ({
                       alt="AR Memory"
                       className="w-full h-full object-cover rounded"
                       onError={(e) => {
-                        (e.target as HTMLImageElement).src = '/placeholder.svg';
+                        (e.target as HTMLImageElement).src = getImagePath('/placeholder.svg');
                       }}
                     />
                   </div>

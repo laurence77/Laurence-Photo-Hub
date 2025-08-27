@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { getImagePath } from '@/lib/utils';
 import { Tv, Cast, Play, Pause, SkipBack, SkipForward, Volume2, Settings, Wifi, QrCode } from 'lucide-react';
 
 interface CastDevice {
@@ -449,9 +450,9 @@ export function SmartTVCasting() {
 
   // Mock photos for demo
   const mockPhotos: MediaItem[] = [
-    { id: '1', type: 'photo', url: '/uploads/photo1.jpg', title: 'Wedding Ceremony' },
-    { id: '2', type: 'photo', url: '/uploads/photo2.jpg', title: 'Reception Dance' },
-    { id: '3', type: 'photo', url: '/uploads/photo3.jpg', title: 'Family Portrait' }
+    { id: '1', type: 'photo', url: getImagePath('/uploads/photo1.jpg'), title: 'Wedding Ceremony' },
+    { id: '2', type: 'photo', url: getImagePath('/uploads/photo2.jpg'), title: 'Reception Dance' },
+    { id: '3', type: 'photo', url: getImagePath('/uploads/photo3.jpg'), title: 'Family Portrait' }
   ];
 
   return (

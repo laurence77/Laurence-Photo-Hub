@@ -6,6 +6,7 @@ import { Button } from "@/components/ui/button";
 import DarkModeToggle from '@/components/DarkModeToggle';
 import SignInModal from '@/components/SignInModal';
 import { updateSEOTags, SEO_CONFIGS } from '@/utils/seoUtils';
+import { getImagePath } from '@/lib/utils';
 
 const Index = () => {
   const navigate = useNavigate();
@@ -321,12 +322,12 @@ const Index = () => {
       <section className="relative min-h-screen flex items-center overflow-hidden" id="home">
         <div className="absolute inset-0 z-0">
           <img 
-            src="/uploads/a0278ce1-b82d-4ed6-a186-14a9503ef65c.png" 
+            src={getImagePath('/uploads/a0278ce1-b82d-4ed6-a186-14a9503ef65c.png')} 
             alt="Event Photography" 
             className="w-full h-full object-cover"
             onError={(e) => {
               console.error('Image failed to load:', (e.target as HTMLImageElement).src);
-              (e.target as HTMLImageElement).src = '/placeholder.svg';
+              (e.target as HTMLImageElement).src = getImagePath('/placeholder.svg');
             }}
             onLoad={() => console.log('Image loaded successfully')}
           />
@@ -423,7 +424,7 @@ const Index = () => {
                 <FadeIn delay={100}>
                   <div className="mb-6">
                     <img 
-                      src="/uploads/47f9a1d0-4458-400a-8fc0-79adf093cf18.png" 
+                      src={getImagePath('/uploads/47f9a1d0-4458-400a-8fc0-79adf093cf18.png')}
                       alt="Professional Photography" 
                       className="w-full h-48 object-cover rounded-lg mb-4"
                     />
@@ -505,12 +506,12 @@ const Index = () => {
               <FadeIn delay={100}>
                 <div className="glass-card enhance-3d overflow-hidden">
                   <img 
-                    src="/uploads/34a58283-8b82-48f9-88f4-2c88b069921d.png" 
+                    src={getImagePath('/uploads/34a58283-8b82-48f9-88f4-2c88b069921d.png')}
                     alt="Event Photography" 
                     className="w-full h-64 object-cover gallery-image"
                     onError={(e) => {
                       console.error('Gallery image 1 failed to load:', (e.target as HTMLImageElement).src);
-                      (e.target as HTMLImageElement).src = '/placeholder.svg';
+                      (e.target as HTMLImageElement).src = getImagePath('/placeholder.svg');
                     }}
                   />
                 </div>
@@ -519,7 +520,7 @@ const Index = () => {
               <FadeIn delay={200}>
                 <div className="glass-card enhance-3d overflow-hidden">
                   <img 
-                    src="/uploads/af28398b-9e23-4e2b-9de1-bda457e09fd8.png" 
+                    src={getImagePath('/uploads/af28398b-9e23-4e2b-9de1-bda457e09fd8.png')}
                     alt="Professional Photos" 
                     className="w-full h-64 object-cover gallery-image"
                   />
@@ -529,7 +530,7 @@ const Index = () => {
               <FadeIn delay={300}>
                 <div className="glass-card enhance-3d overflow-hidden">
                   <img 
-                    src="/uploads/dabbf929-5dd0-4794-a011-fe43bf4b3418.png" 
+                    src={getImagePath('/uploads/dabbf929-5dd0-4794-a011-fe43bf4b3418.png')}
                     alt="Sharing Platform" 
                     className="w-full h-64 object-cover gallery-image"
                   />

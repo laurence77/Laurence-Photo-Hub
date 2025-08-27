@@ -1,4 +1,5 @@
 import { useState, useEffect } from 'react';
+import { getImagePath } from '@/lib/utils';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
@@ -44,8 +45,8 @@ const RealTimePhotoWall = () => {
     {
       id: '1',
       type: 'photo',
-      url: '/uploads/a0278ce1-b82d-4ed6-a186-14a9503ef65c.png',
-      thumbnail: '/uploads/a0278ce1-b82d-4ed6-a186-14a9503ef65c.png',
+      url: getImagePath('/uploads/a0278ce1-b82d-4ed6-a186-14a9503ef65c.png'),
+      thumbnail: getImagePath('/uploads/a0278ce1-b82d-4ed6-a186-14a9503ef65c.png'),
       uploadedBy: 'Sarah M.',
       uploadedAt: new Date(Date.now() - 5000),
       likes: 12,
@@ -57,8 +58,8 @@ const RealTimePhotoWall = () => {
     {
       id: '2',
       type: 'photo',
-      url: '/uploads/34a58283-8b82-48f9-88f4-2c88b069921d.png',
-      thumbnail: '/uploads/34a58283-8b82-48f9-88f4-2c88b069921d.png',
+      url: getImagePath('/uploads/34a58283-8b82-48f9-88f4-2c88b069921d.png'),
+      thumbnail: getImagePath('/uploads/34a58283-8b82-48f9-88f4-2c88b069921d.png'),
       uploadedBy: 'John D.',
       uploadedAt: new Date(Date.now() - 15000),
       likes: 8,
@@ -69,8 +70,8 @@ const RealTimePhotoWall = () => {
     {
       id: '3',
       type: 'video',
-      url: '/uploads/47f9a1d0-4458-400a-8fc0-79adf093cf18.png',
-      thumbnail: '/uploads/47f9a1d0-4458-400a-8fc0-79adf093cf18.png',
+      url: getImagePath('/uploads/47f9a1d0-4458-400a-8fc0-79adf093cf18.png'),
+      thumbnail: getImagePath('/uploads/47f9a1d0-4458-400a-8fc0-79adf093cf18.png'),
       uploadedBy: 'Emma K.',
       uploadedAt: new Date(Date.now() - 30000),
       likes: 15,
@@ -81,8 +82,8 @@ const RealTimePhotoWall = () => {
     {
       id: '4',
       type: 'photo',
-      url: '/uploads/af28398b-9e23-4e2b-9de1-bda457e09fd8.png',
-      thumbnail: '/uploads/af28398b-9e23-4e2b-9de1-bda457e09fd8.png',
+      url: getImagePath('/uploads/af28398b-9e23-4e2b-9de1-bda457e09fd8.png'),
+      thumbnail: getImagePath('/uploads/af28398b-9e23-4e2b-9de1-bda457e09fd8.png'),
       uploadedBy: 'Mike R.',
       uploadedAt: new Date(Date.now() - 45000),
       likes: 6,
@@ -93,8 +94,8 @@ const RealTimePhotoWall = () => {
     {
       id: '5',
       type: 'photo',
-      url: '/uploads/dabbf929-5dd0-4794-a011-fe43bf4b3418.png',
-      thumbnail: '/uploads/dabbf929-5dd0-4794-a011-fe43bf4b3418.png',
+      url: getImagePath('/uploads/dabbf929-5dd0-4794-a011-fe43bf4b3418.png'),
+      thumbnail: getImagePath('/uploads/dabbf929-5dd0-4794-a011-fe43bf4b3418.png'),
       uploadedBy: 'Lisa T.',
       uploadedAt: new Date(Date.now() - 60000),
       likes: 20,

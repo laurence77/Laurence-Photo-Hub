@@ -1,4 +1,5 @@
 import { useState, useEffect, useRef } from 'react';
+import { getImagePath } from '@/lib/utils';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
@@ -267,7 +268,7 @@ const Camera360Capture = ({
       format: captureSettings.format,
       quality: captureSettings.resolution as '4K' | '5.7K' | '8K',
       status: 'recording',
-      thumbnail: '/uploads/a0278ce1-b82d-4ed6-a186-14a9503ef65c.png'
+      thumbnail: getImagePath('/uploads/a0278ce1-b82d-4ed6-a186-14a9503ef65c.png')
     };
 
     setCurrentSession(session);
@@ -298,7 +299,7 @@ const Camera360Capture = ({
       fileCount: 1,
       totalSize: Math.random() * 2000 + 500, // MB
       status: 'completed',
-      preview360: '/uploads/360-preview.jpg'
+      preview360: getImagePath('/uploads/360-preview.jpg')
     };
 
     setActiveSessions(prev => 
@@ -706,7 +707,7 @@ const Camera360Capture = ({
                               alt={session.name}
                               className="w-16 h-16 object-cover vision-pro-rounded"
                               onError={(e) => {
-                                (e.target as HTMLImageElement).src = '/placeholder.svg';
+                                (e.target as HTMLImageElement).src = getImagePath('/placeholder.svg');
                               }}
                             />
                           )}

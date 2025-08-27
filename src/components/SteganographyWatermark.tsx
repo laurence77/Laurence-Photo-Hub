@@ -1,4 +1,5 @@
 import { useState, useEffect } from 'react';
+import { getImagePath } from '@/lib/utils';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
@@ -86,8 +87,8 @@ const SteganographyWatermark = () => {
     {
       id: '1',
       filename: 'wedding_ceremony.jpg',
-      originalUrl: '/uploads/a0278ce1-b82d-4ed6-a186-14a9503ef65c.png',
-      watermarkedUrl: '/uploads/a0278ce1-b82d-4ed6-a186-14a9503ef65c.png',
+      originalUrl: getImagePath('/uploads/a0278ce1-b82d-4ed6-a186-14a9503ef65c.png'),
+      watermarkedUrl: getImagePath('/uploads/a0278ce1-b82d-4ed6-a186-14a9503ef65c.png'),
       metadata: {
         owner: 'Alex Rodriguez Photography',
         copyright: '© 2024 Alex Rodriguez. All rights reserved.',
@@ -109,8 +110,8 @@ const SteganographyWatermark = () => {
     {
       id: '2',
       filename: 'reception_dance.jpg',
-      originalUrl: '/uploads/34a58283-8b82-48f9-88f4-2c88b069921d.png',
-      watermarkedUrl: '/uploads/34a58283-8b82-48f9-88f4-2c88b069921d.png',
+      originalUrl: getImagePath('/uploads/34a58283-8b82-48f9-88f4-2c88b069921d.png'),
+      watermarkedUrl: getImagePath('/uploads/34a58283-8b82-48f9-88f4-2c88b069921d.png'),
       metadata: {
         owner: 'Alex Rodriguez Photography',
         copyright: '© 2024 Alex Rodriguez. All rights reserved.',
@@ -131,8 +132,8 @@ const SteganographyWatermark = () => {
     {
       id: '3',
       filename: 'group_photo.jpg',
-      originalUrl: '/uploads/47f9a1d0-4458-400a-8fc0-79adf093cf18.png',
-      watermarkedUrl: '/uploads/47f9a1d0-4458-400a-8fc0-79adf093cf18.png',
+      originalUrl: getImagePath('/uploads/47f9a1d0-4458-400a-8fc0-79adf093cf18.png'),
+      watermarkedUrl: getImagePath('/uploads/47f9a1d0-4458-400a-8fc0-79adf093cf18.png'),
       metadata: {
         owner: 'Guest Photographer',
         copyright: '© 2024 Unknown. Rights disputed.',
@@ -163,8 +164,8 @@ const SteganographyWatermark = () => {
     const newPhoto: WatermarkedPhoto = {
       id: Date.now().toString(),
       filename: 'new_watermarked.jpg',
-      originalUrl: '/uploads/a0278ce1-b82d-4ed6-a186-14a9503ef65c.png',
-      watermarkedUrl: '/uploads/a0278ce1-b82d-4ed6-a186-14a9503ef65c.png',
+      originalUrl: getImagePath('/uploads/a0278ce1-b82d-4ed6-a186-14a9503ef65c.png'),
+      watermarkedUrl: getImagePath('/uploads/a0278ce1-b82d-4ed6-a186-14a9503ef65c.png'),
       metadata: {
         owner: 'Current User',
         copyright: '© 2024 Current User. All rights reserved.',
