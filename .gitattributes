@@ -1,0 +1,5 @@
+# Exclude bot commits from GitHub statistics
+* linguist-generated=false
+*.md linguist-documentation
+.github/ linguist-vendored
+package-lock.json linguist-generated
