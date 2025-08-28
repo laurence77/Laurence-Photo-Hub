@@ -10,6 +10,7 @@ import ThreeBackground from '@/components/ThreeBackground';
 import { use3D } from '@/context/3DContext';
 import { updateSEOTags, SEO_CONFIGS, insertStructuredData, generateOrganizationStructuredData } from '@/utils/seoUtils';
 import { getImagePath } from '@/lib/utils';
+import { prefetchRoute } from '@/lib/prefetchRoutes';
 import { usePWAInstall } from '@/hooks/usePWAInstall';
 
 const Index = () => {
@@ -290,6 +291,7 @@ const Index = () => {
               type="button"
               className="text-sm font-medium text-gray-600 hover:electric-accent spring-smooth px-3 py-2 vision-pro-rounded"
               onClick={() => scrollToSection('home')}
+              onMouseEnter={() => prefetchRoute('/')} 
               title="Go to Home section"
             >
               Home
@@ -298,6 +300,14 @@ const Index = () => {
               type="button"
               className="text-sm font-medium text-gray-600 hover:electric-accent spring-smooth px-3 py-2 vision-pro-rounded"
               onClick={() => scrollToSection('features')}
+              onMouseEnter={() => {
+                prefetchRoute('/features/capture');
+                prefetchRoute('/features/sharing');
+                prefetchRoute('/features/privacy');
+                prefetchRoute('/features/roles');
+                prefetchRoute('/features/feed');
+                prefetchRoute('/features/platforms');
+              }}
               title="View Features section"
             >
               Features
@@ -322,6 +332,7 @@ const Index = () => {
               type="button"
               className="text-sm font-medium text-gray-600 hover:electric-accent spring-smooth px-3 py-2 vision-pro-rounded"
               onClick={() => navigate('/events')}
+              onMouseEnter={() => prefetchRoute('/events')}
               title="Browse Public Events"
             >
               Public Events
@@ -473,6 +484,18 @@ const Index = () => {
                 <div 
                   className="glass-card p-6 text-center group cursor-pointer transition-transform hover:scale-105"
                   onClick={() => handleFeatureClick(feature.id)}
+                  onMouseEnter={() => {
+                    const map: Record<string,string> = {
+                      'premium-capture': '/features/capture',
+                      'smart-sharing': '/features/sharing',
+                      'privacy-first': '/features/privacy',
+                      'role-management': '/features/roles',
+                      'real-time-feed': '/features/feed',
+                      'multi-platform': '/features/platforms',
+                    };
+                    const p = map[feature.id];
+                    if (p) prefetchRoute(p);
+                  }}
                   title={`View details for ${feature.title}`}
                 >
                   <div className="flex justify-center mb-4">
@@ -527,6 +550,7 @@ const Index = () => {
                   <div 
                     className="glass-card stats-card p-6 text-center cursor-pointer transition-transform hover:scale-105"
                     onClick={() => handleStatsClick('events')}
+                    onMouseEnter={() => prefetchRoute('/analytics/events')}
                     title="View event analytics"
                   >
                     <Building className="w-8 h-8 text-orangery-600 mx-auto mb-3" />
@@ -539,6 +563,7 @@ const Index = () => {
                   <div 
                     className="glass-card stats-card p-6 text-center cursor-pointer transition-transform hover:scale-105"
                     onClick={() => handleStatsClick('uptime')}
+                    onMouseEnter={() => prefetchRoute('/status')}
                     title="View uptime statistics"
                   >
                     <TrendingUp className="w-8 h-8 text-orangery-600 mx-auto mb-3" />
@@ -551,6 +576,7 @@ const Index = () => {
                   <div 
                     className="glass-card stats-card p-6 text-center cursor-pointer transition-transform hover:scale-105"
                     onClick={() => handleStatsClick('photos')}
+                    onMouseEnter={() => prefetchRoute('/analytics/photos')}
                     title="View photo sharing analytics"
                   >
                     <Users className="w-8 h-8 text-orangery-600 mx-auto mb-3" />
@@ -563,6 +589,7 @@ const Index = () => {
                   <div 
                     className="glass-card stats-card p-6 text-center cursor-pointer transition-transform hover:scale-105"
                     onClick={() => handleStatsClick('security')}
+                    onMouseEnter={() => prefetchRoute('/security')}
                     title="View security analytics"
                   >
                     <Target className="w-8 h-8 text-orangery-600 mx-auto mb-3" />

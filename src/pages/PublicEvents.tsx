@@ -225,6 +225,7 @@ const PublicEvents = () => {
               <Button
                 variant="outline"
                 onClick={() => navigate('/account')}
+                onMouseEnter={() => import('@/pages/Account')}
                 className="glass-button electric-border electric-accent hover:electric-bg hover:text-white"
               >
                 Dashboard

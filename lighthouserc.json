@@ -1,0 +1,19 @@
+{
+  "ci": {
+    "collect": {
+      "staticDistDir": "dist",
+      "url": [
+        "https://laurence77.github.io/Laurence-Photo-Hub/",
+        "https://laurence77.github.io/Laurence-Photo-Hub/#/events"
+      ]
+    },
+    "assert": {
+      "assertions": {
+        "categories:performance": ["warn", { "minScore": 0.9 }],
+        "categories:accessibility": ["warn", { "minScore": 0.9 }],
+        "categories:seo": ["warn", { "minScore": 0.9 }]
+      }
+    }
+  }
+}
+
