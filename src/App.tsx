@@ -52,11 +52,11 @@ const App = () => (
           <Routes>
             <Route path="/" element={<Index />} />
             <Route path="/admin" element={<AdminPortal />} />
-            <Route path="/admin/dashboard" element={<RequireAuth><AdminDashboard /></RequireAuth>} />
-            <Route path="/admin/b2b" element={<RequireAuth><AdminB2B /></RequireAuth>} />
-            <Route path="/admin/b2c" element={<RequireAuth><AdminB2C /></RequireAuth>} />
-            <Route path="/admin/settings" element={<RequireAuth><AdminSettings /></RequireAuth>} />
-            <Route path="/superadmin" element={<RequireAuth><SuperAdmin /></RequireAuth>} />
+            <Route path="/admin/dashboard" element={<RequireAuth roles={["admin"]}><AdminDashboard /></RequireAuth>} />
+            <Route path="/admin/b2b" element={<RequireAuth roles={["admin"]}><AdminB2B /></RequireAuth>} />
+            <Route path="/admin/b2c" element={<RequireAuth roles={["admin"]}><AdminB2C /></RequireAuth>} />
+            <Route path="/admin/settings" element={<RequireAuth roles={["admin"]}><AdminSettings /></RequireAuth>} />
+            <Route path="/superadmin" element={<RequireAuth roles={["superadmin"]}><SuperAdmin /></RequireAuth>} />
             <Route path="/account" element={<Account />} />
             <Route path="/events" element={<PublicEvents />} />
             <Route path="/recap/:eventId" element={<EventRecap />} />
