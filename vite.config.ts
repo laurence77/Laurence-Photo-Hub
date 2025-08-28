@@ -20,27 +20,25 @@ export default defineConfig(({ mode }) => ({
       name: 'external-scripts',
       apply: 'build',
       transformIndexHtml: {
-        enforce: 'pre',
-        transform(html) {
+        order: 'pre',
+        handler(html) {
           // Replace script tags to prevent bundling
           return html
-            .replace('<script src="framebust.js"></script>', '<!-- framebust.js will be copied to dist -->')
-            .replace('<script src="gh-spa-redirect.js"></script>', '<!-- gh-spa-redirect.js will be copied to dist -->');
+            .replace('<script type="module" src="/framebust.js"></script>', '<!-- framebust.js will be copied to dist -->')
+            .replace('<script type="module" src="/gh-spa-redirect.js"></script>', '<!-- gh-spa-redirect.js will be copied to dist -->');
         }
       },
-      writeBundle() {
-        // Copy external scripts manually after build
-        const fs = require('fs');
-        const path = require('path');
-        
+      async writeBundle() {
+        // Copy external scripts manually after build using dynamic import
+        const fs = await import('fs');
         try {
           fs.copyFileSync(
-            path.resolve(__dirname, 'public/framebust.js'),
-            path.resolve(__dirname, 'dist/framebust.js')
+            path.resolve(process.cwd(), 'public/framebust.js'),
+            path.resolve(process.cwd(), 'dist/framebust.js')
           );
           fs.copyFileSync(
-            path.resolve(__dirname, 'public/gh-spa-redirect.js'), 
-            path.resolve(__dirname, 'dist/gh-spa-redirect.js')
+            path.resolve(process.cwd(), 'public/gh-spa-redirect.js'), 
+            path.resolve(process.cwd(), 'dist/gh-spa-redirect.js')
           );
         } catch (e) {
           console.warn('Failed to copy external scripts:', e);
@@ -52,8 +50,8 @@ export default defineConfig(({ mode }) => ({
       name: 'inject-csp-meta',
       apply: 'build',
       transformIndexHtml: {
-        enforce: 'post',
-        transform(html) {
+        order: 'post',
+        handler(html) {
           const csp = [
             "default-src 'self'",
             "base-uri 'self'",
@@ -70,8 +68,8 @@ export default defineConfig(({ mode }) => ({
 
           // Re-add the script tags and inject CSP
           return html
-            .replace('<!-- framebust.js will be copied to dist -->', '<script src="framebust.js"></script>')
-            .replace('<!-- gh-spa-redirect.js will be copied to dist -->', '<script src="gh-spa-redirect.js"></script>')
+            .replace('<!-- framebust.js will be copied to dist -->', '<script type="module" src="framebust.js"></script>')
+            .replace('<!-- gh-spa-redirect.js will be copied to dist -->', '<script type="module" src="gh-spa-redirect.js"></script>')
             .replace(
               '</head>',
               `  <meta http-equiv="Content-Security-Policy" content="${csp}">\n  </head>`
