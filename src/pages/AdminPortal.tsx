@@ -1,11 +1,16 @@
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Button } from "@/components/ui/button";
 import { Building, Users, Settings, BarChart3, Shield } from "lucide-react";
+import AdminLogin from '@/components/AdminLogin';
 
 const AdminPortal = () => {
   const navigate = useNavigate();
-  const [isSignInModalOpen, setIsSignInModalOpen] = useState(false);
+  const [isAuthenticated, setIsAuthenticated] = useState(false);
+
+  if (!isAuthenticated) {
+    return <AdminLogin onLogin={() => setIsAuthenticated(true)} />;
+  }
 
   return (
     <div className="min-h-screen bg-white">
@@ -15,13 +20,23 @@ const AdminPortal = () => {
           <div className="text-2xl font-semibold text-gray-900">
             Laurence Photo Hub - Admin
           </div>
-          <Button 
-            variant="outline" 
-            onClick={() => navigate('/')}
-            className="border-gray-200 hover:bg-gray-50"
-          >
-            Back to Site
-          </Button>
+          <div className="flex items-center gap-3">
+            <Button 
+              variant="ghost" 
+              size="sm"
+              onClick={() => setIsAuthenticated(false)}
+              className="text-gray-600 hover:text-gray-900"
+            >
+              Logout
+            </Button>
+            <Button 
+              variant="outline" 
+              onClick={() => navigate('/')}
+              className="border-gray-200 hover:bg-gray-50"
+            >
+              Back to Site
+            </Button>
+          </div>
         </div>
       </header>
 

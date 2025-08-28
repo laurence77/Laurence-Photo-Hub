@@ -2,6 +2,24 @@
 
 Production-grade mobile and web app for private premium event media sharing with Apple Glass aesthetic.
 
+## 🚀 Live Demo
+
+### Public Site
+- **URL**: [https://laurence77.github.io/Laurence-Photo-Hub/](https://laurence77.github.io/Laurence-Photo-Hub/)
+- **Description**: Main landing page with features, gallery, and public events
+
+### Admin Panel
+- **URL**: [https://laurence77.github.io/Laurence-Photo-Hub/#/admin](https://laurence77.github.io/Laurence-Photo-Hub/#/admin)
+- **Username**: `laurence@laurence`
+- **Password**: `12345`
+- **Description**: B2B/B2C management system with analytics, settings, and administrative controls
+
+### User Login
+- **URL**: [https://laurence77.github.io/Laurence-Photo-Hub/](https://laurence77.github.io/Laurence-Photo-Hub/)
+- **Username**: `laurence@laurence`
+- **Password**: `12345`
+- **Description**: User dashboard with event access and photo management
+
 ## Overview
 
 Build a comprehensive photo sharing platform with clean whites, subtle translucency, soft gradients, elegant motion, San Francisco typography, and high contrast focus states. Support iOS, Android, and web platforms.
