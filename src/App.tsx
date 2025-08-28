@@ -4,6 +4,7 @@ import { TooltipProvider } from "@/components/ui/tooltip";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { HashRouter, Routes, Route } from "react-router-dom";
 import Index from "./pages/Index";
+import AdminPortal from "./pages/AdminPortal";
 import Account from "./pages/Account";
 import EventRecap from "./pages/EventRecap";
 import PublicEvents from "./pages/PublicEvents";
@@ -37,6 +38,7 @@ const App = () => (
       >
         <Routes>
           <Route path="/" element={<Index />} />
+          <Route path="/admin" element={<AdminPortal />} />
           <Route path="/account" element={<Account />} />
           <Route path="/events" element={<PublicEvents />} />
           <Route path="/recap/:eventId" element={<EventRecap />} />
