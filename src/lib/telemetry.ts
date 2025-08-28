@@ -11,9 +11,16 @@ export async function initTelemetry() {
     return;
   }
   try {
-    // Try to load Sentry only if it's installed
-    const { init } = await import('@sentry/browser');
-    init({ dsn: DSN, tracesSampleRate: 0.1 });
+    // Try to load Sentry only if it's installed.
+    // Use a computed specifier with @vite-ignore so Vite doesn't try to bundle it.
+    const modName = '@sentry/browser';
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    const sentry: any = await import(/* @vite-ignore */ (modName as string));
+    if (sentry?.init) {
+      sentry.init({ dsn: DSN, tracesSampleRate: 0.1 });
+    } else if (sentry?.default?.init) {
+      sentry.default.init({ dsn: DSN, tracesSampleRate: 0.1 });
+    }
   } catch (e) {
     // Sentry not installed or failed to load - use fallback logging
     console.warn('Sentry not available; falling back to console logging');
@@ -21,4 +28,3 @@ export async function initTelemetry() {
     window.addEventListener('unhandledrejection', (e) => console.warn('Unhandled rejection:', e.reason));
   }
 }
-
