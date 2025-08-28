@@ -28,7 +28,12 @@ interface EventSEOData {
 export const updateSEOTags = (seo: SEOMetaTags) => {
   const origin = window.location.origin;
   const base = (import.meta as any).env.BASE_URL || '/';
-  const resolveCanonical = (url: string) => url.startsWith('http') ? url : `${origin}${base.replace(/\/$/, '/')}${url.replace(/^\//, '')}`;
+  const trimSlashes = (s: string) => s.replace(/^\/+|\/+$/g, '');
+  const joinUrl = (a: string, b?: string, c?: string) => {
+    const parts = [a.replace(/\/+$/g, ''), trimSlashes(b || ''), trimSlashes(c || '')].filter(Boolean);
+    return parts[0] + (parts.length > 1 ? '/' + parts.slice(1).join('/') : '');
+  };
+  const resolveCanonical = (url: string) => (url.startsWith('http') ? url : joinUrl(origin, base, url));
 
   // Update title
   document.title = seo.title;

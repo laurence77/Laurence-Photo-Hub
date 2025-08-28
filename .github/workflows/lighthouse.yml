@@ -1,5 +1,8 @@
 name: Lighthouse CI
 
+permissions:
+  contents: read
+
 on:
   workflow_dispatch:
   push:
