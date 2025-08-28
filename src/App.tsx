@@ -5,6 +5,10 @@ import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { HashRouter, Routes, Route } from "react-router-dom";
 import Index from "./pages/Index";
 import AdminPortal from "./pages/AdminPortal";
+import AdminDashboard from "./pages/AdminDashboard";
+import AdminB2B from "./pages/AdminB2B";
+import AdminB2C from "./pages/AdminB2C";
+import AdminSettings from "./pages/AdminSettings";
 import Account from "./pages/Account";
 import EventRecap from "./pages/EventRecap";
 import PublicEvents from "./pages/PublicEvents";
@@ -39,6 +43,10 @@ const App = () => (
         <Routes>
           <Route path="/" element={<Index />} />
           <Route path="/admin" element={<AdminPortal />} />
+          <Route path="/admin/dashboard" element={<AdminDashboard />} />
+          <Route path="/admin/b2b" element={<AdminB2B />} />
+          <Route path="/admin/b2c" element={<AdminB2C />} />
+          <Route path="/admin/settings" element={<AdminSettings />} />
           <Route path="/account" element={<Account />} />
           <Route path="/events" element={<PublicEvents />} />
           <Route path="/recap/:eventId" element={<EventRecap />} />
