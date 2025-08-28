@@ -11,10 +11,11 @@ export async function initTelemetry() {
     return;
   }
   try {
-    const Sentry = await import('@sentry/browser');
-    // Optional: const Tracing = await import('@sentry/tracing');
-    Sentry.init({ dsn: DSN, tracesSampleRate: 0.1 });
+    // Try to load Sentry only if it's installed
+    const { init } = await import('@sentry/browser');
+    init({ dsn: DSN, tracesSampleRate: 0.1 });
   } catch (e) {
+    // Sentry not installed or failed to load - use fallback logging
     console.warn('Sentry not available; falling back to console logging');
     window.addEventListener('error', (e) => console.warn('Global error:', e.error || e.message));
     window.addEventListener('unhandledrejection', (e) => console.warn('Unhandled rejection:', e.reason));

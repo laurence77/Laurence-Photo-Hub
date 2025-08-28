@@ -1,8 +1,9 @@
 import { createRoot } from 'react-dom/client'
 import App from './App.tsx'
 import './index.css'
+import './styles/tailwind-3d-utilities.css'
 import { toast } from '@/components/ui/sonner'
-import { initTelemetry } from '@/lib/telemetry'
+// import { initTelemetry } from '@/lib/telemetry'
 
 createRoot(document.getElementById("root")!).render(<App />);
 
@@ -53,7 +54,7 @@ if ('serviceWorker' in navigator && import.meta.env.PROD) {
 // Add to Home Screen prompt (PWA install)
 if (import.meta.env.PROD) {
   // Initialize telemetry (Sentry or fallback)
-  initTelemetry();
+  // initTelemetry();
   let deferredPrompt: any = null;
   window.addEventListener('beforeinstallprompt', (e: Event) => {
     e.preventDefault();

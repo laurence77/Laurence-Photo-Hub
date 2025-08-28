@@ -4,7 +4,7 @@
  */
 
 import React, { useState, useEffect } from 'react';
-import { Cube, Square } from 'lucide-react';
+import { Box, Square } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { cn } from '@/lib/utils';
 import { get3D } from '@/scripts/3d-core';
@@ -157,7 +157,7 @@ const FlatModeToggle: React.FC<FlatModeToggleProps> = ({
         title={`Currently in ${is3DMode ? '3D' : 'flat'} mode`}
       >
         {is3DMode ? (
-          <Cube className={cn(iconSizeClasses[size], 'text-electric-accent')} />
+          <Box className={cn(iconSizeClasses[size], 'text-electric-accent')} />
         ) : (
           <Square className={cn(iconSizeClasses[size])} />
         )}
@@ -181,7 +181,7 @@ const FlatModeToggle: React.FC<FlatModeToggleProps> = ({
       aria-label={`Switch to ${is3DMode ? 'flat' : '3D'} mode`}
     >
       {is3DMode ? (
-        <Cube className={iconSizeClasses[size]} />
+        <Box className={iconSizeClasses[size]} />
       ) : (
         <Square className={iconSizeClasses[size]} />
       )}
