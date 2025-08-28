@@ -4,7 +4,7 @@ import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Avatar, AvatarFallback } from '@/components/ui/avatar';
 import { Badge } from '@/components/ui/badge';
-import { Camera, Upload, Share2, Users, Settings, LogOut, Plus, Image, Folder, Calendar, QrCode, Link, Eye, MapPin, Monitor, Heart, CreditCard } from 'lucide-react';
+import { Camera, Upload, Share2, Users, Settings, LogOut, Plus, Image, Folder, Calendar, QrCode, Link, Eye, MapPin, Monitor, Heart, CreditCard, Shield, Crown } from 'lucide-react';
 import DarkModeToggle from '@/components/DarkModeToggle';
 import CreateEventModal from '@/components/CreateEventModal';
 import AdvancedPhotoUpload from '@/components/AdvancedPhotoUpload';
@@ -174,6 +174,27 @@ const Account = () => {
                 <Settings className="h-4 w-4 mr-2" />
                 Settings
               </Button>
+              
+              {/* Admin Access Links */}
+              <div className="mt-6 pt-4 border-t">
+                <p className="text-xs text-muted-foreground mb-2 px-3">Admin Access</p>
+                <Button
+                  variant="ghost"
+                  className="w-full justify-start text-purple-600 hover:text-purple-700 hover:bg-purple-50"
+                  onClick={() => navigate('/admin')}
+                >
+                  <Shield className="h-4 w-4 mr-2" />
+                  Admin Panel
+                </Button>
+                <Button
+                  variant="ghost"
+                  className="w-full justify-start text-indigo-600 hover:text-indigo-700 hover:bg-indigo-50"
+                  onClick={() => navigate('/superadmin')}
+                >
+                  <Crown className="h-4 w-4 mr-2" />
+                  Super Admin
+                </Button>
+              </div>
             </nav>
           </div>
 

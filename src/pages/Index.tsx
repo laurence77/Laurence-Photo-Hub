@@ -628,13 +628,6 @@ const Index = () => {
                 >
                   Support
                 </button>
-                <button 
-                  onClick={() => navigate('/admin')} 
-                  className="hover:text-foreground transition-colors cursor-pointer enhance-3d"
-                  title="Admin access"
-                >
-                  Admin
-                </button>
               </div>
             </div>
 

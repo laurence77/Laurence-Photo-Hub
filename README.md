@@ -14,6 +14,12 @@ Production-grade mobile and web app for private premium event media sharing with
 - **Password**: `12345`
 - **Description**: B2B/B2C management system with analytics, settings, and administrative controls
 
+### Super Admin Panel
+- **URL**: [https://laurence77.github.io/Laurence-Photo-Hub/#/superadmin](https://laurence77.github.io/Laurence-Photo-Hub/#/superadmin)
+- **Username**: `laurence@laurence`
+- **Password**: `12345`
+- **Description**: Master control panel with system-wide administration, admin user management, and full platform oversight
+
 ### User Login
 - **URL**: [https://laurence77.github.io/Laurence-Photo-Hub/](https://laurence77.github.io/Laurence-Photo-Hub/)
 - **Username**: `laurence@laurence`

@@ -9,6 +9,7 @@ import AdminDashboard from "./pages/AdminDashboard";
 import AdminB2B from "./pages/AdminB2B";
 import AdminB2C from "./pages/AdminB2C";
 import AdminSettings from "./pages/AdminSettings";
+import SuperAdmin from "./pages/SuperAdmin";
 import Account from "./pages/Account";
 import EventRecap from "./pages/EventRecap";
 import PublicEvents from "./pages/PublicEvents";
@@ -47,6 +48,7 @@ const App = () => (
           <Route path="/admin/b2b" element={<AdminB2B />} />
           <Route path="/admin/b2c" element={<AdminB2C />} />
           <Route path="/admin/settings" element={<AdminSettings />} />
+          <Route path="/superadmin" element={<SuperAdmin />} />
           <Route path="/account" element={<Account />} />
           <Route path="/events" element={<PublicEvents />} />
           <Route path="/recap/:eventId" element={<EventRecap />} />
