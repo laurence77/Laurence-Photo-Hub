@@ -14,6 +14,31 @@ export default defineConfig(({ mode }) => ({
     react(),
     mode === 'development' &&
     componentTagger(),
+    // Inject strict CSP only for production builds
+    {
+      name: 'inject-csp-meta',
+      apply: 'build',
+      transformIndexHtml(html) {
+        const csp = [
+          "default-src 'self'",
+          "base-uri 'self'",
+          "form-action 'self'",
+          "frame-ancestors 'none'",
+          "object-src 'none'",
+          "img-src 'self' data:",
+          "font-src 'self' data:",
+          "style-src 'self' 'unsafe-inline'",
+          "script-src 'self'",
+          "connect-src 'self'",
+          'upgrade-insecure-requests',
+        ].join('; ');
+
+        return html.replace(
+          '</head>',
+          `  <meta http-equiv="Content-Security-Policy" content="${csp}">\n  </head>`
+        );
+      },
+    },
   ].filter(Boolean),
   resolve: {
     alias: {

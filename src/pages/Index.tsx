@@ -5,46 +5,68 @@ import { Camera, Share2, Shield, Smartphone, Users, Zap, Building, TrendingUp, T
 import { Button } from "@/components/ui/button";
 import DarkModeToggle from '@/components/DarkModeToggle';
 import SignInModal from '@/components/SignInModal';
-import { updateSEOTags, SEO_CONFIGS } from '@/utils/seoUtils';
+import FlatModeToggle from '@/components/FlatModeToggle';
+import ThreeBackground from '@/components/ThreeBackground';
+import { use3D } from '@/context/3DContext';
+import { updateSEOTags, SEO_CONFIGS, insertStructuredData, generateOrganizationStructuredData } from '@/utils/seoUtils';
 import { getImagePath } from '@/lib/utils';
+import { usePWAInstall } from '@/hooks/usePWAInstall';
 
 const Index = () => {
   const navigate = useNavigate();
+  const { settings, deviceCapabilities } = use3D();
   const [isSignInModalOpen, setIsSignInModalOpen] = useState(false);
   const [isCameraModalOpen, setIsCameraModalOpen] = useState(false);
   const videoRef = useRef<HTMLVideoElement>(null);
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const [stream, setStream] = useState<MediaStream | null>(null);
   const [capturedImage, setCapturedImage] = useState<string | null>(null);
+  const { canInstall, promptInstall } = usePWAInstall();
+  const [showOfflineBadge, setShowOfflineBadge] = useState(false);
   useEffect(() => {
     // Set SEO meta tags
     updateSEOTags(SEO_CONFIGS.home);
+    // Insert Organization structured data
+    try { insertStructuredData(generateOrganizationStructuredData(), 'org-jsonld'); } catch {}
     
-    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-      anchor.addEventListener('click', function (e) {
-        e.preventDefault();
-        const event = e as MouseEvent;
-        const target = event.currentTarget as HTMLAnchorElement;
-        const targetId = target.getAttribute('href')?.substring(1);
-        if (!targetId) return;
-        const targetElement = document.getElementById(targetId);
-        if (targetElement) {
-          window.scrollTo({
-            top: targetElement.offsetTop - 80,
-            behavior: 'smooth'
-          });
-        }
-      });
-    });
+    const onAnchorClick = (e: Event) => {
+      e.preventDefault();
+      const target = e.currentTarget as HTMLAnchorElement;
+      const targetId = target.getAttribute('href')?.substring(1);
+      if (!targetId) return;
+      const targetElement = document.getElementById(targetId);
+      if (targetElement) {
+        window.scrollTo({
+          top: targetElement.offsetTop - 80,
+          behavior: 'smooth',
+        });
+      }
+    };
+
+    const anchors = Array.from(document.querySelectorAll('a[href^="#"]')) as HTMLAnchorElement[];
+    anchors.forEach((a) => a.addEventListener('click', onAnchorClick));
     
     return () => {
-      document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-        anchor.removeEventListener('click', function () {
-          // Cleanup
-        });
-      });
+      anchors.forEach((a) => a.removeEventListener('click', onAnchorClick));
     };
   }, []);
+
+  // Offline-ready badge: show once on first SW install
+  useEffect(() => {
+    const ready = localStorage.getItem('lph_offline_ready') === 'true';
+    const shown = localStorage.getItem('lph_offline_badge_shown') === 'true';
+    if (ready && !shown) setShowOfflineBadge(true);
+    const onOfflineReady = () => {
+      if (!localStorage.getItem('lph_offline_badge_shown')) setShowOfflineBadge(true);
+    };
+    window.addEventListener('lph:offline-ready', onOfflineReady);
+    return () => window.removeEventListener('lph:offline-ready', onOfflineReady);
+  }, []);
+
+  const dismissOfflineBadge = () => {
+    localStorage.setItem('lph_offline_badge_shown', 'true');
+    setShowOfflineBadge(false);
+  };
 
   const scrollToSection = (id: string) => {
     if (id === 'home') {
@@ -247,9 +269,16 @@ const Index = () => {
   ];
 
   return (
-    <main className="relative min-h-screen bg-gradient-to-br from-white via-blue-50/30 to-purple-50/20 dark:from-gray-900 dark:to-black">
-      {/* Header */}
-      <header className="fixed top-0 left-0 right-0 z-50 glass-panel py-4">
+    <main className="scene relative min-h-screen bg-gradient-to-br from-white via-blue-50/30 to-purple-50/20 dark:from-gray-900 dark:to-black">
+      {/* Fixed Flat Mode Toggle */}
+      <FlatModeToggle 
+        position="fixed" 
+        fixedPosition="bottom-right" 
+        variant="icon"
+        size="md"
+      />
+      {/* Header - Layer 4 */}
+      <header className="layer fixed top-0 left-0 right-0 z-50 glass-panel nav-3d py-4" data-depth="4">
         <div className="container mx-auto px-4 md:px-6 flex items-center justify-between">
           <div className="text-xl font-serif font-medium tracking-tight text-gradient-electric">
             Laurence Photo Hub
@@ -298,6 +327,18 @@ const Index = () => {
               Public Events
             </button>
             <DarkModeToggle />
+            {canInstall && (
+              <Button
+                variant="outline"
+                size="sm"
+                className="glass-button"
+                onClick={() => promptInstall()}
+                aria-label="Install app"
+                title="Install app"
+              >
+                Install App
+              </Button>
+            )}
             <Button 
               variant="outline" 
               size="sm"
@@ -312,6 +353,18 @@ const Index = () => {
           {/* Mobile Navigation */}
           <div className="flex md:hidden items-center space-x-4">
             <DarkModeToggle />
+            {canInstall && (
+              <Button
+                variant="outline"
+                size="sm"
+                className="border-white text-white hover:bg-white hover:text-black"
+                onClick={() => promptInstall()}
+                aria-label="Install app"
+                title="Install app"
+              >
+                Install
+              </Button>
+            )}
             <Button 
               variant="outline" 
               size="sm"
@@ -325,13 +378,26 @@ const Index = () => {
         </div>
       </header>
 
-      {/* Hero */}
-      <section className="relative min-h-screen flex items-center overflow-hidden" id="home">
-        <div className="absolute inset-0 z-0">
+      {/* Hero - Multi-Layer Depth */}
+      <section className="scene scene-far relative min-h-screen flex items-center overflow-hidden" id="home">
+        {/* Layer 0: Advanced Background */}
+        <div className="absolute inset-0 z-0 layer" data-depth="0">
+          {settings.advancedEffects && deviceCapabilities.supportsWebGL && (
+            <ThreeBackground 
+              effect="particles" 
+              theme="electric" 
+              intensity={settings.maxIntensity * 0.6}
+              interactive={settings.parallaxEnabled}
+              className="opacity-30"
+            />
+          )}
           <img 
             src={getImagePath('/uploads/a0278ce1-b82d-4ed6-a186-14a9503ef65c.png')} 
             alt="Event Photography" 
             className="w-full h-full object-cover"
+            loading="eager"
+            decoding="async"
+            fetchpriority="high"
             onError={(e) => {
               console.error('Image failed to load:', (e.target as HTMLImageElement).src);
               (e.target as HTMLImageElement).src = getImagePath('/placeholder.svg');
@@ -342,7 +408,7 @@ const Index = () => {
         </div>
         
         <div className="container mx-auto px-4 md:px-6 py-20 md:py-32 relative z-10 max-w-4xl">
-          <div className="max-w-3xl mx-auto text-center glass-card hero-card p-12 m-8">
+          <div className="layer max-w-3xl mx-auto text-center glass-card hero-card card-3d-electric p-12 m-8" data-depth="2">
             <FadeIn delay={200}>
               <h1 className="text-4xl md:text-5xl lg:text-6xl font-serif font-medium tracking-tight text-gradient-electric leading-tight mb-6 relative inline-block">
                 Laurence Photo Hub
@@ -437,6 +503,8 @@ const Index = () => {
                       src={getImagePath('/uploads/47f9a1d0-4458-400a-8fc0-79adf093cf18.png')}
                       alt="Professional Photography" 
                       className="w-full h-48 object-cover rounded-lg mb-4"
+                      loading="lazy"
+                      decoding="async"
                     />
                   </div>
                   <p className="text-lg leading-relaxed mb-6 text-muted-foreground">
@@ -694,6 +762,14 @@ const Index = () => {
                 <span>/LaurencePhotoHub</span>
               </div>
             </div>
+
+            {/* Offline ready badge (first run) */}
+            {showOfflineBadge && (
+              <div className="flex items-center justify-center gap-2 pb-3">
+                <span className="text-xs px-2 py-1 rounded-full bg-green-100 text-green-700 border border-green-200">Ready for offline</span>
+                <button onClick={dismissOfflineBadge} aria-label="Dismiss offline badge" className="text-xs text-gray-500 hover:text-gray-700">×</button>
+              </div>
+            )}
 
             {/* Copyright */}
             <div className="text-center text-xs text-muted-foreground border-t border-gray-200 dark:border-gray-700 pt-4">

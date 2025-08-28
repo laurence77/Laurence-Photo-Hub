@@ -1,9 +1,10 @@
-import { useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Mail, Lock, Eye, EyeOff, Shield } from 'lucide-react';
+import { useAuth } from '@/context/AuthContext';
 
 interface AdminLoginProps {
   onLogin: () => void;
@@ -14,16 +15,37 @@ const AdminLogin = ({ onLogin }: AdminLoginProps) => {
   const [password, setPassword] = useState('');
   const [showPassword, setShowPassword] = useState(false);
   const [error, setError] = useState('');
+  const [cooldownMs, setCooldownMs] = useState(0);
+  const attemptsRef = useRef(0);
+  const { login } = useAuth();
 
-  const handleSubmit = (e: React.FormEvent) => {
+  useEffect(() => {
+    if (cooldownMs <= 0) return;
+    const t = setTimeout(() => setCooldownMs((ms) => Math.max(ms - 1000, 0)), 1000);
+    return () => clearTimeout(t);
+  }, [cooldownMs]);
+
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    
-    if (email === 'laurence@laurence' && password === '12345') {
+    if (cooldownMs > 0) return;
+
+    const ok = await login(email, password);
+    if (ok) {
       setError('');
+      attemptsRef.current = 0;
       onLogin();
-    } else {
-      setError('Invalid credentials. Use laurence@laurence with password 12345');
+      return;
     }
+
+    // Exponential backoff to slow brute-force in demo/dev
+    attemptsRef.current += 1;
+    const backoff = Math.min(30000, 1000 * Math.pow(2, attemptsRef.current - 1));
+    setCooldownMs(backoff);
+    setError(
+      import.meta.env.PROD
+        ? 'Admin access is disabled on the production demo. Please integrate backend authentication.'
+        : 'Invalid credentials.'
+    );
   };
 
   return (
@@ -84,21 +106,26 @@ const AdminLogin = ({ onLogin }: AdminLoginProps) => {
             {error && (
               <div className="text-sm text-red-600 bg-red-50 p-3 rounded-md">
                 {error}
+                {cooldownMs > 0 && (
+                  <span className="block text-xs text-red-500 mt-1">Please wait {Math.ceil(cooldownMs / 1000)}s before retrying.</span>
+                )}
               </div>
             )}
             
-            <Button type="submit" className="w-full bg-red-600 hover:bg-red-700">
+            <Button type="submit" className="w-full bg-red-600 hover:bg-red-700" disabled={cooldownMs > 0}>
               Sign In to Admin
             </Button>
           </form>
 
-          <div className="mt-6 p-4 bg-gray-50 rounded-lg">
-            <div className="text-sm font-medium text-gray-900 mb-2">Demo Credentials:</div>
-            <div className="text-sm text-gray-600 space-y-1">
-              <div><strong>Email:</strong> laurence@laurence</div>
-              <div><strong>Password:</strong> 12345</div>
+          {!import.meta.env.PROD && (
+            <div className="mt-6 p-4 bg-gray-50 rounded-lg">
+              <div className="text-sm font-medium text-gray-900 mb-2">Demo Credentials (development only):</div>
+              <div className="text-sm text-gray-600 space-y-1">
+                <div><strong>Email:</strong> laurence@laurence</div>
+                <div><strong>Password:</strong> 12345</div>
+              </div>
             </div>
-          </div>
+          )}
         </CardContent>
       </Card>
     </div>

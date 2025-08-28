@@ -1,0 +1,180 @@
+/**
+ * Laurence Photo Hub - 3D Enhancement Tokens
+ * Global CSS variables for depth, lighting, shadow, and motion
+ */
+
+:root {
+  /* === 3D DEPTH SYSTEM === */
+  /* Elevation levels for systematic layering */
+  --depth-ground: 0px;
+  --depth-surface: 2px;
+  --depth-raised: 8px;
+  --depth-overlay: 16px;
+  --depth-popup: 24px;
+  --depth-tooltip: 32px;
+  
+  /* Transform depth ranges (safe for desktop) */
+  --depth-translate-sm: 10px;
+  --depth-translate-md: 20px;
+  --depth-translate-lg: 40px;
+  --depth-translate-xl: 60px;
+  
+  /* Rotation angles for 3D tilt */
+  --depth-rotate-sm: 2deg;
+  --depth-rotate-md: 4deg;
+  --depth-rotate-lg: 6deg;
+  --depth-rotate-subtle: 1deg;
+  
+  /* === LIGHTING SYSTEM === */
+  /* Ambient light (global illumination) */
+  --light-ambient-soft: rgba(255, 255, 255, 0.02);
+  --light-ambient-medium: rgba(255, 255, 255, 0.05);
+  --light-ambient-bright: rgba(255, 255, 255, 0.1);
+  
+  /* Key light (main directional light from top-left) */
+  --light-key-soft: rgba(255, 255, 255, 0.08);
+  --light-key-medium: rgba(255, 255, 255, 0.15);
+  --light-key-bright: rgba(255, 255, 255, 0.25);
+  
+  /* Rim light (edge highlights) */
+  --light-rim-soft: rgba(255, 255, 255, 0.1);
+  --light-rim-medium: rgba(255, 255, 255, 0.2);
+  --light-rim-bright: rgba(255, 255, 255, 0.3);
+  
+  /* === SHADOW SYSTEM === */
+  /* Ambient shadows (soft, diffused) */
+  --shadow-ambient-sm: 0 1px 3px rgba(0, 0, 0, 0.12);
+  --shadow-ambient-md: 0 4px 6px rgba(0, 0, 0, 0.1);
+  --shadow-ambient-lg: 0 10px 15px rgba(0, 0, 0, 0.1);
+  --shadow-ambient-xl: 0 20px 25px rgba(0, 0, 0, 0.15);
+  
+  /* Key shadows (sharp, directional) */
+  --shadow-key-sm: 0 2px 4px rgba(0, 0, 0, 0.06);
+  --shadow-key-md: 0 8px 10px rgba(0, 0, 0, 0.08);
+  --shadow-key-lg: 0 16px 20px rgba(0, 0, 0, 0.1);
+  --shadow-key-xl: 0 32px 40px rgba(0, 0, 0, 0.12);
+  
+  /* Contact shadows (tight to surface) */
+  --shadow-contact-sm: 0 0 0 1px rgba(0, 0, 0, 0.05);
+  --shadow-contact-md: 0 1px 2px rgba(0, 0, 0, 0.1);
+  --shadow-contact-lg: 0 2px 4px rgba(0, 0, 0, 0.15);
+  
+  /* Electric glow shadows */
+  --shadow-electric-sm: 0 0 10px rgba(0, 153, 255, 0.2);
+  --shadow-electric-md: 0 0 20px rgba(0, 153, 255, 0.3);
+  --shadow-electric-lg: 0 0 40px rgba(0, 153, 255, 0.4);
+  
+  /* === MOTION SYSTEM === */
+  /* Timing functions for natural motion */
+  --ease-spring: cubic-bezier(0.175, 0.885, 0.32, 1.275);
+  --ease-smooth: cubic-bezier(0.16, 1, 0.3, 1);
+  --ease-snappy: cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  
+  /* Duration presets */
+  --duration-instant: 0.1s;
+  --duration-quick: 0.2s;
+  --duration-smooth: 0.3s;
+  --duration-slow: 0.5s;
+  
+  /* === BLUR & EFFECTS === */
+  --blur-sm: blur(4px);
+  --blur-md: blur(8px);
+  --blur-lg: blur(16px);
+  --blur-xl: blur(32px);
+  
+  /* Glass effect strength */
+  --glass-opacity-light: 0.7;
+  --glass-opacity-medium: 0.85;
+  --glass-opacity-heavy: 0.95;
+  
+  /* === PERSPECTIVE === */
+  --perspective-close: 800px;
+  --perspective-medium: 1000px;
+  --perspective-far: 1200px;
+  --perspective-ultra: 1600px;
+}
+
+/* === MOBILE ADJUSTMENTS === */
+@media (max-width: 768px) {
+  :root {
+    /* Reduce transform ranges for mobile */
+    --depth-translate-sm: 6px;
+    --depth-translate-md: 12px;
+    --depth-translate-lg: 24px;
+    --depth-translate-xl: 36px;
+    
+    /* Gentler rotations on mobile */
+    --depth-rotate-sm: 1deg;
+    --depth-rotate-md: 2deg;
+    --depth-rotate-lg: 3deg;
+    
+    /* Closer perspective for smaller screens */
+    --perspective-close: 600px;
+    --perspective-medium: 800px;
+    --perspective-far: 1000px;
+    --perspective-ultra: 1200px;
+    
+    /* Lighter shadows for performance */
+    --shadow-ambient-xl: 0 15px 20px rgba(0, 0, 0, 0.12);
+    --shadow-key-xl: 0 25px 30px rgba(0, 0, 0, 0.1);
+  }
+}
+
+/* === REDUCED MOTION OVERRIDES === */
+@media (prefers-reduced-motion: reduce) {
+  :root {
+    /* Minimal transforms when motion is reduced */
+    --depth-translate-sm: 2px;
+    --depth-translate-md: 4px;
+    --depth-translate-lg: 6px;
+    --depth-translate-xl: 8px;
+    
+    --depth-rotate-sm: 0deg;
+    --depth-rotate-md: 0deg;
+    --depth-rotate-lg: 0deg;
+    
+    /* Faster, subtle transitions */
+    --duration-instant: 0.05s;
+    --duration-quick: 0.1s;
+    --duration-smooth: 0.15s;
+    --duration-slow: 0.2s;
+  }
+}
+
+/* === DARK MODE ADJUSTMENTS === */
+.dark {
+  /* Enhanced contrast for dark mode */
+  --light-ambient-soft: rgba(255, 255, 255, 0.03);
+  --light-ambient-medium: rgba(255, 255, 255, 0.06);
+  --light-ambient-bright: rgba(255, 255, 255, 0.12);
+  
+  --light-key-soft: rgba(255, 255, 255, 0.1);
+  --light-key-medium: rgba(255, 255, 255, 0.18);
+  --light-key-bright: rgba(255, 255, 255, 0.3);
+  
+  /* Stronger shadows for depth in dark mode */
+  --shadow-ambient-sm: 0 2px 4px rgba(0, 0, 0, 0.3);
+  --shadow-ambient-md: 0 6px 8px rgba(0, 0, 0, 0.25);
+  --shadow-ambient-lg: 0 12px 18px rgba(0, 0, 0, 0.2);
+  --shadow-ambient-xl: 0 24px 30px rgba(0, 0, 0, 0.25);
+  
+  --shadow-key-sm: 0 3px 5px rgba(0, 0, 0, 0.15);
+  --shadow-key-md: 0 10px 12px rgba(0, 0, 0, 0.2);
+  --shadow-key-lg: 0 20px 24px rgba(0, 0, 0, 0.25);
+  --shadow-key-xl: 0 40px 48px rgba(0, 0, 0, 0.3);
+  
+  /* Brighter glass opacity for visibility */
+  --glass-opacity-light: 0.8;
+  --glass-opacity-medium: 0.9;
+  --glass-opacity-heavy: 0.98;
+}
+
+/* === HIGH CONTRAST MODE === */
+@media (prefers-contrast: high) {
+  :root {
+    /* Stronger shadows and lighting for accessibility */
+    --shadow-ambient-sm: 0 2px 4px rgba(0, 0, 0, 0.4);
+    --shadow-key-sm: 0 3px 5px rgba(0, 0, 0, 0.3);
+    --light-key-bright: rgba(255, 255, 255, 0.4);
+  }
+}

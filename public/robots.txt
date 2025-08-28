@@ -1,14 +1,11 @@
-User-agent: Googlebot
-Allow: /
-
-User-agent: Bingbot
-Allow: /
-
-User-agent: Twitterbot
-Allow: /
-
-User-agent: facebookexternalhit
-Allow: /
-
 User-agent: *
 Allow: /
+
+# Disallow sensitive or non-indexable app routes
+Disallow: /#/admin
+Disallow: /#/admin/
+Disallow: /#/superadmin
+Disallow: /#/account
+
+# Sitemap (static hosting)
+Sitemap: https://laurence77.github.io/Laurence-Photo-Hub/sitemap.xml

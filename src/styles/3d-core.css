@@ -1,0 +1,396 @@
+/**
+ * Laurence Photo Hub - Core 3D Utilities
+ * Systematic 3D layer system, hover effects, and interactions
+ */
+
+/* === SCENE SYSTEM === */
+.scene {
+  perspective: var(--perspective-medium);
+  perspective-origin: center center;
+  transform-style: preserve-3d;
+  position: relative;
+  /* Enable hardware acceleration */
+  will-change: transform;
+  /* Prevent 3D flicker on WebKit */
+  -webkit-transform-style: preserve-3d;
+  -webkit-backface-visibility: hidden;
+}
+
+.scene-close { perspective: var(--perspective-close); }
+.scene-far { perspective: var(--perspective-far); }
+.scene-ultra { perspective: var(--perspective-ultra); }
+
+/* === LAYER SYSTEM === */
+.layer {
+  transform-style: preserve-3d;
+  position: relative;
+  transition: transform var(--duration-smooth) var(--ease-spring);
+  will-change: transform;
+}
+
+/* Layer depth presets using data attributes */
+.layer[data-depth="0"] { transform: translateZ(var(--depth-ground)); }
+.layer[data-depth="1"] { transform: translateZ(var(--depth-surface)); }
+.layer[data-depth="2"] { transform: translateZ(var(--depth-raised)); }
+.layer[data-depth="3"] { transform: translateZ(var(--depth-overlay)); }
+.layer[data-depth="4"] { transform: translateZ(var(--depth-popup)); }
+.layer[data-depth="5"] { transform: translateZ(var(--depth-tooltip)); }
+
+/* === HOVER TILT EFFECTS === */
+.tilt-hover {
+  transform-style: preserve-3d;
+  transition: transform var(--duration-smooth) var(--ease-spring);
+  cursor: pointer;
+}
+
+.tilt-hover:hover {
+  transform: perspective(var(--perspective-medium)) 
+             rotateX(var(--depth-rotate-sm)) 
+             rotateY(calc(var(--depth-rotate-sm) * -1)) 
+             translateY(calc(var(--depth-translate-sm) * -0.5))
+             translateZ(var(--depth-translate-sm));
+}
+
+.tilt-hover-md:hover {
+  transform: perspective(var(--perspective-medium)) 
+             rotateX(var(--depth-rotate-md)) 
+             rotateY(calc(var(--depth-rotate-md) * -1)) 
+             translateY(calc(var(--depth-translate-md) * -0.5))
+             translateZ(var(--depth-translate-md));
+}
+
+.tilt-hover-lg:hover {
+  transform: perspective(var(--perspective-far)) 
+             rotateX(var(--depth-rotate-lg)) 
+             rotateY(calc(var(--depth-rotate-lg) * -1)) 
+             translateY(calc(var(--depth-translate-lg) * -0.5))
+             translateZ(var(--depth-translate-lg));
+}
+
+/* === PRESS DEPTH EFFECTS === */
+.press-depth {
+  transition: transform var(--duration-quick) var(--ease-snappy);
+}
+
+.press-depth:active {
+  transform: scale(0.98) translateZ(calc(var(--depth-translate-sm) * -0.5));
+}
+
+/* === LAYERED SHADOWS === */
+.shadow-layered-sm {
+  box-shadow: 
+    var(--shadow-ambient-sm),
+    var(--shadow-key-sm),
+    var(--shadow-contact-sm);
+}
+
+.shadow-layered-md {
+  box-shadow: 
+    var(--shadow-ambient-md),
+    var(--shadow-key-md),
+    var(--shadow-contact-md);
+}
+
+.shadow-layered-lg {
+  box-shadow: 
+    var(--shadow-ambient-lg),
+    var(--shadow-key-lg),
+    var(--shadow-contact-lg);
+}
+
+.shadow-layered-xl {
+  box-shadow: 
+    var(--shadow-ambient-xl),
+    var(--shadow-key-xl),
+    var(--shadow-contact-lg);
+}
+
+/* Electric glow shadow combinations */
+.shadow-electric-sm {
+  box-shadow: 
+    var(--shadow-ambient-sm),
+    var(--shadow-electric-sm);
+}
+
+.shadow-electric-md {
+  box-shadow: 
+    var(--shadow-ambient-md),
+    var(--shadow-key-md),
+    var(--shadow-electric-md);
+}
+
+.shadow-electric-lg {
+  box-shadow: 
+    var(--shadow-ambient-lg),
+    var(--shadow-key-lg),
+    var(--shadow-electric-lg);
+}
+
+/* === GLASS MORPHISM ENHANCEMENTS === */
+.glass-light {
+  background: rgba(255, 255, 255, var(--glass-opacity-light));
+  backdrop-filter: var(--blur-md);
+  -webkit-backdrop-filter: var(--blur-md);
+  border: 1px solid var(--light-rim-soft);
+}
+
+.glass-medium {
+  background: rgba(255, 255, 255, var(--glass-opacity-medium));
+  backdrop-filter: var(--blur-lg);
+  -webkit-backdrop-filter: var(--blur-lg);
+  border: 1px solid var(--light-rim-medium);
+}
+
+.glass-heavy {
+  background: rgba(255, 255, 255, var(--glass-opacity-heavy));
+  backdrop-filter: var(--blur-xl);
+  -webkit-backdrop-filter: var(--blur-xl);
+  border: 1px solid var(--light-rim-bright);
+}
+
+/* Glass with 3D lighting effects */
+.glass-3d {
+  position: relative;
+  overflow: hidden;
+}
+
+.glass-3d::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 50%;
+  background: linear-gradient(180deg, var(--light-key-medium), transparent);
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity var(--duration-smooth) var(--ease-smooth);
+}
+
+.glass-3d::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: linear-gradient(135deg, var(--light-rim-soft) 0%, transparent 50%);
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity var(--duration-smooth) var(--ease-smooth);
+}
+
+.glass-3d:hover::before,
+.glass-3d:hover::after {
+  opacity: 1;
+}
+
+/* === GLOW HELPERS === */
+.glow-soft {
+  filter: drop-shadow(0 0 8px rgba(0, 153, 255, 0.2));
+}
+
+.glow-medium {
+  filter: drop-shadow(0 0 16px rgba(0, 153, 255, 0.3));
+}
+
+.glow-bright {
+  filter: drop-shadow(0 0 24px rgba(0, 153, 255, 0.4));
+}
+
+/* === ENHANCED CARD SYSTEM === */
+.card-3d {
+  transform-style: preserve-3d;
+  transition: all var(--duration-smooth) var(--ease-spring);
+  position: relative;
+  will-change: transform;
+}
+
+.card-3d:hover {
+  transform: perspective(var(--perspective-medium))
+             rotateX(calc(var(--depth-rotate-md) * -1))
+             rotateY(var(--depth-rotate-md))
+             translateY(calc(var(--depth-translate-md) * -0.8))
+             translateZ(var(--depth-translate-md))
+             scale(1.02);
+}
+
+/* Card with electric accent on hover */
+.card-3d-electric:hover {
+  transform: perspective(var(--perspective-medium))
+             rotateX(calc(var(--depth-rotate-md) * -1))
+             rotateY(var(--depth-rotate-md))
+             translateY(calc(var(--depth-translate-md) * -0.8))
+             translateZ(var(--depth-translate-md))
+             scale(1.02);
+  box-shadow: 
+    var(--shadow-ambient-lg),
+    var(--shadow-key-lg),
+    var(--shadow-electric-md);
+}
+
+/* === BUTTON ENHANCEMENTS === */
+.btn-3d {
+  transform-style: preserve-3d;
+  transition: all var(--duration-smooth) var(--ease-spring);
+  position: relative;
+}
+
+.btn-3d:hover {
+  transform: perspective(var(--perspective-close))
+             rotateX(calc(var(--depth-rotate-sm) * -1))
+             translateY(calc(var(--depth-translate-sm) * -0.3))
+             translateZ(var(--depth-translate-sm));
+}
+
+.btn-3d:active {
+  transform: perspective(var(--perspective-close))
+             rotateX(calc(var(--depth-rotate-subtle) * -1))
+             translateY(calc(var(--depth-translate-sm) * 0.2))
+             translateZ(calc(var(--depth-translate-sm) * 0.5))
+             scale(0.98);
+}
+
+/* === NAVIGATION 3D === */
+.nav-3d {
+  transform-style: preserve-3d;
+  transition: all var(--duration-quick) var(--ease-spring);
+}
+
+.nav-3d:hover {
+  transform: perspective(var(--perspective-close))
+             rotateX(calc(var(--depth-rotate-subtle) * -1))
+             translateY(calc(var(--depth-translate-sm) * -0.2))
+             translateZ(calc(var(--depth-translate-sm) * 0.5));
+}
+
+/* === GALLERY 3D GRID === */
+.gallery-3d {
+  display: grid;
+  gap: 1.5rem;
+  transform-style: preserve-3d;
+}
+
+.gallery-item-3d {
+  transform-style: preserve-3d;
+  transition: all var(--duration-smooth) var(--ease-spring);
+  cursor: pointer;
+}
+
+.gallery-item-3d:hover {
+  transform: perspective(var(--perspective-medium))
+             rotateX(calc(var(--depth-rotate-md) * -1))
+             rotateY(var(--depth-rotate-sm))
+             translateY(calc(var(--depth-translate-md) * -0.6))
+             translateZ(var(--depth-translate-md));
+}
+
+/* Staggered gallery animation */
+.gallery-item-3d:nth-child(1) { animation-delay: 0.1s; }
+.gallery-item-3d:nth-child(2) { animation-delay: 0.2s; }
+.gallery-item-3d:nth-child(3) { animation-delay: 0.3s; }
+.gallery-item-3d:nth-child(4) { animation-delay: 0.4s; }
+.gallery-item-3d:nth-child(5) { animation-delay: 0.5s; }
+.gallery-item-3d:nth-child(6) { animation-delay: 0.6s; }
+
+/* === FLAT MODE TOGGLE === */
+[data-3d-mode="flat"] .scene,
+[data-3d-mode="flat"] .layer,
+[data-3d-mode="flat"] .tilt-hover,
+[data-3d-mode="flat"] .card-3d,
+[data-3d-mode="flat"] .btn-3d,
+[data-3d-mode="flat"] .nav-3d,
+[data-3d-mode="flat"] .gallery-item-3d {
+  transform: none !important;
+  perspective: none !important;
+  transform-style: flat !important;
+  transition-duration: 0.1s !important;
+}
+
+[data-3d-mode="flat"] .shadow-layered-sm,
+[data-3d-mode="flat"] .shadow-layered-md,
+[data-3d-mode="flat"] .shadow-layered-lg,
+[data-3d-mode="flat"] .shadow-layered-xl {
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1) !important;
+}
+
+[data-3d-mode="flat"] .glass-3d::before,
+[data-3d-mode="flat"] .glass-3d::after {
+  display: none !important;
+}
+
+/* === PERFORMANCE OPTIMIZATIONS === */
+.gpu-accelerated {
+  transform: translateZ(0);
+  -webkit-transform: translateZ(0);
+  will-change: transform;
+}
+
+.contain-paint {
+  contain: paint;
+}
+
+.contain-layout {
+  contain: layout;
+}
+
+/* === ACCESSIBILITY FEATURES === */
+.focus-3d:focus-visible {
+  outline: none;
+  box-shadow: 
+    var(--shadow-ambient-md),
+    0 0 0 3px rgba(0, 153, 255, 0.4);
+  transform: perspective(var(--perspective-close))
+             translateZ(var(--depth-translate-sm));
+}
+
+/* High contrast mode adjustments */
+@media (prefers-contrast: high) {
+  .glass-light,
+  .glass-medium,
+  .glass-heavy {
+    border-width: 2px;
+    border-color: currentColor;
+  }
+  
+  .shadow-layered-sm,
+  .shadow-layered-md,
+  .shadow-layered-lg,
+  .shadow-layered-xl {
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.5);
+  }
+}
+
+/* Motion preferences */
+@media (prefers-reduced-motion: reduce) {
+  .tilt-hover:hover,
+  .card-3d:hover,
+  .btn-3d:hover,
+  .nav-3d:hover,
+  .gallery-item-3d:hover {
+    transform: translateY(-2px) !important;
+  }
+  
+  .layer,
+  .tilt-hover,
+  .card-3d,
+  .btn-3d,
+  .nav-3d,
+  .gallery-item-3d {
+    transition-duration: 0.1s !important;
+  }
+}
+
+/* Print styles */
+@media print {
+  .scene,
+  .layer,
+  .tilt-hover,
+  .card-3d,
+  .btn-3d,
+  .nav-3d,
+  .gallery-item-3d {
+    transform: none !important;
+    box-shadow: none !important;
+  }
+}

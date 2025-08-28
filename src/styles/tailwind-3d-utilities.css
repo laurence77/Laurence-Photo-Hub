@@ -1,0 +1,168 @@
+/**
+ * Tailwind 3D Utilities - Enhances existing 3d-core.css system
+ * Add these to your Tailwind config as utilities
+ */
+
+@layer utilities {
+  /* === SCENE & PERSPECTIVE === */
+  .scene-perspective {
+    perspective: var(--perspective-medium);
+    perspective-origin: center center;
+    transform-style: preserve-3d;
+  }
+
+  .scene-close { perspective: var(--perspective-close); }
+  .scene-far { perspective: var(--perspective-far); }
+  .scene-ultra { perspective: var(--perspective-ultra); }
+
+  /* === LAYER DEPTHS === */
+  .depth-0 { transform: translateZ(var(--depth-ground)); }
+  .depth-1 { transform: translateZ(var(--depth-surface)); }
+  .depth-2 { transform: translateZ(var(--depth-raised)); }
+  .depth-3 { transform: translateZ(var(--depth-overlay)); }
+  .depth-4 { transform: translateZ(var(--depth-popup)); }
+  .depth-5 { transform: translateZ(var(--depth-tooltip)); }
+
+  /* === HOVER TRANSFORMS === */
+  .hover-lift:hover {
+    transform: translateY(calc(var(--depth-translate-sm) * -0.5)) translateZ(var(--depth-translate-sm));
+  }
+
+  .hover-lift-md:hover {
+    transform: translateY(calc(var(--depth-translate-md) * -0.5)) translateZ(var(--depth-translate-md));
+  }
+
+  .hover-tilt:hover {
+    transform: perspective(var(--perspective-medium))
+               rotateX(var(--depth-rotate-sm))
+               rotateY(calc(var(--depth-rotate-sm) * -1))
+               translateZ(var(--depth-translate-sm));
+  }
+
+  .hover-tilt-md:hover {
+    transform: perspective(var(--perspective-medium))
+               rotateX(var(--depth-rotate-md))
+               rotateY(calc(var(--depth-rotate-md) * -1))
+               translateZ(var(--depth-translate-md));
+  }
+
+  /* === PRESS EFFECTS === */
+  .press-down:active {
+    transform: scale(0.98) translateZ(calc(var(--depth-translate-sm) * -0.5));
+  }
+
+  .press-down-md:active {
+    transform: scale(0.96) translateZ(calc(var(--depth-translate-md) * -0.5));
+  }
+
+  /* === SHADOW COMBINATIONS === */
+  .shadow-float {
+    box-shadow: var(--shadow-ambient-md), var(--shadow-key-md);
+  }
+
+  .shadow-float-lg {
+    box-shadow: var(--shadow-ambient-lg), var(--shadow-key-lg);
+  }
+
+  .shadow-electric {
+    box-shadow: var(--shadow-ambient-md), var(--shadow-electric-md);
+  }
+
+  .shadow-electric-lg {
+    box-shadow: var(--shadow-ambient-lg), var(--shadow-key-lg), var(--shadow-electric-lg);
+  }
+
+  /* === GLASS EFFECTS === */
+  .glass-subtle {
+    background: rgba(255, 255, 255, var(--glass-opacity-light));
+    backdrop-filter: var(--blur-sm);
+    border: 1px solid var(--light-rim-soft);
+  }
+
+  .glass-medium {
+    background: rgba(255, 255, 255, var(--glass-opacity-medium));
+    backdrop-filter: var(--blur-md);
+    border: 1px solid var(--light-rim-medium);
+  }
+
+  .glass-strong {
+    background: rgba(255, 255, 255, var(--glass-opacity-heavy));
+    backdrop-filter: var(--blur-lg);
+    border: 1px solid var(--light-rim-bright);
+  }
+
+  /* === PARALLAX INTENSITIES === */
+  .parallax-subtle { --parallax-intensity: 0.05; }
+  .parallax-gentle { --parallax-intensity: 0.1; }
+  .parallax-medium { --parallax-intensity: 0.2; }
+  .parallax-strong { --parallax-intensity: 0.3; }
+
+  /* === MOTION PRESETS === */
+  .motion-spring {
+    transition: transform var(--duration-smooth) var(--ease-spring);
+  }
+
+  .motion-smooth {
+    transition: transform var(--duration-smooth) var(--ease-smooth);
+  }
+
+  .motion-snappy {
+    transition: transform var(--duration-quick) var(--ease-snappy);
+  }
+
+  /* === GPU ACCELERATION === */
+  .gpu-boost {
+    transform: translateZ(0);
+    will-change: transform;
+  }
+
+  .contain-3d {
+    contain: paint layout;
+    transform-style: preserve-3d;
+  }
+
+  /* === RESPONSIVE ADJUSTMENTS === */
+  @media (max-width: 768px) {
+    .hover-tilt:hover,
+    .hover-tilt-md:hover {
+      transform: translateY(-4px) translateZ(8px);
+    }
+    
+    .hover-lift:hover,
+    .hover-lift-md:hover {
+      transform: translateY(-3px) translateZ(6px);
+    }
+  }
+
+  /* === ACCESSIBILITY OVERRIDES === */
+  @media (prefers-reduced-motion: reduce) {
+    .hover-tilt:hover,
+    .hover-tilt-md:hover,
+    .hover-lift:hover,
+    .hover-lift-md:hover {
+      transform: translateY(-2px) !important;
+    }
+  }
+
+  /* === FLAT MODE OVERRIDES === */
+  [data-3d-mode="flat"] .depth-0,
+  [data-3d-mode="flat"] .depth-1,
+  [data-3d-mode="flat"] .depth-2,
+  [data-3d-mode="flat"] .depth-3,
+  [data-3d-mode="flat"] .depth-4,
+  [data-3d-mode="flat"] .depth-5,
+  [data-3d-mode="flat"] .hover-tilt,
+  [data-3d-mode="flat"] .hover-tilt-md,
+  [data-3d-mode="flat"] .hover-lift,
+  [data-3d-mode="flat"] .hover-lift-md {
+    transform: none !important;
+  }
+
+  /* === ANIMATION DELAY UTILITIES === */
+  .animation-delay-100 { animation-delay: 100ms; }
+  .animation-delay-200 { animation-delay: 200ms; }
+  .animation-delay-300 { animation-delay: 300ms; }
+  .animation-delay-400 { animation-delay: 400ms; }
+  .animation-delay-500 { animation-delay: 500ms; }
+  .animation-delay-600 { animation-delay: 600ms; }
+}

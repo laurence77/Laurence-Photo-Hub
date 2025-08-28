@@ -26,6 +26,10 @@ interface EventSEOData {
  * Updates document meta tags for SEO
  */
 export const updateSEOTags = (seo: SEOMetaTags) => {
+  const origin = window.location.origin;
+  const base = (import.meta as any).env.BASE_URL || '/';
+  const resolveCanonical = (url: string) => url.startsWith('http') ? url : `${origin}${base.replace(/\/$/, '/')}${url.replace(/^\//, '')}`;
+
   // Update title
   document.title = seo.title;
 
@@ -53,7 +57,7 @@ export const updateSEOTags = (seo: SEOMetaTags) => {
     { property: 'og:title', content: seo.title },
     { property: 'og:description', content: seo.description },
     { property: 'og:image', content: seo.ogImage || '' },
-    { property: 'og:url', content: seo.canonicalUrl },
+    { property: 'og:url', content: resolveCanonical(seo.canonicalUrl) },
     { property: 'og:type', content: seo.ogType || 'website' },
     { property: 'og:site_name', content: 'Laurence Photo Hub' }
   ];
@@ -97,7 +101,7 @@ export const updateSEOTags = (seo: SEOMetaTags) => {
     canonical.setAttribute('rel', 'canonical');
     document.head.appendChild(canonical);
   }
-  canonical.setAttribute('href', seo.canonicalUrl);
+  canonical.setAttribute('href', resolveCanonical(seo.canonicalUrl));
 };
 
 /**

@@ -3,13 +3,14 @@ import { useNavigate } from 'react-router-dom';
 import { Button } from "@/components/ui/button";
 import { Building, Users, Settings, BarChart3, Shield } from "lucide-react";
 import AdminLogin from '@/components/AdminLogin';
+import { useAuth } from '@/context/AuthContext';
 
 const AdminPortal = () => {
   const navigate = useNavigate();
-  const [isAuthenticated, setIsAuthenticated] = useState(false);
+  const { isAuthenticated, logout } = useAuth();
 
   if (!isAuthenticated) {
-    return <AdminLogin onLogin={() => setIsAuthenticated(true)} />;
+    return <AdminLogin onLogin={() => { /* state handled by context */ }} />;
   }
 
   return (
@@ -24,7 +25,7 @@ const AdminPortal = () => {
             <Button 
               variant="ghost" 
               size="sm"
-              onClick={() => setIsAuthenticated(false)}
+              onClick={() => logout()}
               className="text-gray-600 hover:text-gray-900"
             >
               Logout

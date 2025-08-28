@@ -1,0 +1,17 @@
+{
+  "name": "Laurence Photo Hub",
+  "short_name": "Photo Hub",
+  "start_url": "/Laurence-Photo-Hub/",
+  "scope": "/Laurence-Photo-Hub/",
+  "display": "standalone",
+  "background_color": "#ffffff",
+  "theme_color": "#0099ff",
+  "icons": [
+    {
+      "src": "favicon.png",
+      "sizes": "64x64",
+      "type": "image/png",
+      "purpose": "any maskable"
+    }
+  ]
+}
