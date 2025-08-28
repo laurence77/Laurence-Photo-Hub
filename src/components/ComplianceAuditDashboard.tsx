@@ -385,12 +385,20 @@ export function ComplianceAuditDashboard() {
         timestamp: Date.now(),
         eventType: 'user_action',
         severity: 'info',
-        userId: `user-${Math.floor(crypto.getRandomValues(new Uint32Array(1))[0] % 1000)}`,
+        userId: `user-${(() => {
+          const array = new Uint32Array(1);
+          crypto.getRandomValues(array);
+          return Math.floor((array[0] / (0xFFFFFFFF + 1)) * 1000);
+        })()}`,
         userName: 'system.user@company.com',
         action: 'DATA_ACCESS',
         resource: '/api/data/access',
         outcome: 'success',
-        ipAddress: '203.0.113.' + Math.floor(crypto.getRandomValues(new Uint32Array(1))[0] % 255),
+        ipAddress: '203.0.113.' + (() => {
+          const array = new Uint32Array(1);
+          crypto.getRandomValues(array);
+          return Math.floor((array[0] / (0xFFFFFFFF + 1)) * 255);
+        })(),
         userAgent: 'Enterprise App v1.0',
         sessionId: `sess_${cryptoUtils.generateSecureRandom(8)}`,
         metadata: {

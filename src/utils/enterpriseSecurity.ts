@@ -67,10 +67,10 @@ export const ENTERPRISE_SECURITY_CONFIG: SecurityConfig = {
 // Enterprise-grade input sanitization
 export class InputSanitizer {
   private static readonly XSS_PATTERNS = [
-    /<script\b[^<]*(?:(?!<\/script>)<[^<]*)*<\/script\s*>/gi,
-    /<iframe\b[^<]*(?:(?!<\/iframe>)<[^<]*)*<\/iframe\s*>/gi,
-    /<object\b[^<]*(?:(?!<\/object>)<[^<]*)*<\/object\s*>/gi,
-    /<embed\b[^<]*(?:(?!<\/embed>)<[^<]*)*<\/embed\s*>/gi,
+    /<script\b[^<]*(?:(?!<\/script[\s>])<[^<]*)*<\/script[\s>][^>]*>/gi,
+    /<iframe\b[^<]*(?:(?!<\/iframe[\s>])<[^<]*)*<\/iframe[\s>][^>]*>/gi,
+    /<object\b[^<]*(?:(?!<\/object[\s>])<[^<]*)*<\/object[\s>][^>]*>/gi,
+    /<embed\b[^<]*(?:(?!<\/embed[\s>])<[^<]*)*<\/embed[\s>][^>]*>/gi,
     /javascript:/gi,
     /vbscript:/gi,
     /data:text\/html/gi,

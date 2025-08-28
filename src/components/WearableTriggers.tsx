@@ -268,9 +268,21 @@ export function WearableTriggers() {
     const time = Date.now();
     
     return {
-      heartRate: baseHeartRate + Math.sin(time / 10000) * 20 + Math.random() * 10,
-      stressLevel: 30 + Math.sin(time / 20000) * 40 + Math.random() * 20,
-      activity: ['resting', 'walking', 'dancing', 'running'][Math.floor(Math.random() * 4)],
+      heartRate: baseHeartRate + Math.sin(time / 10000) * 20 + (() => {
+        const array = new Uint32Array(1);
+        crypto.getRandomValues(array);
+        return (array[0] / (0xFFFFFFFF + 1)) * 10;
+      })(),
+      stressLevel: 30 + Math.sin(time / 20000) * 40 + (() => {
+        const array = new Uint32Array(1);
+        crypto.getRandomValues(array);
+        return (array[0] / (0xFFFFFFFF + 1)) * 20;
+      })(),
+      activity: ['resting', 'walking', 'dancing', 'running'][(() => {
+        const array = new Uint32Array(1);
+        crypto.getRandomValues(array);
+        return Math.floor((array[0] / (0xFFFFFFFF + 1)) * 4);
+      })()],
       timestamp: new Date()
     };
   };
