@@ -1,7 +1,6 @@
 import { createRoot } from 'react-dom/client'
 import App from './App.tsx'
 import './index.css'
-import './styles/tailwind-3d-utilities.css'
 import { toast } from '@/components/ui/sonner'
 import { initTelemetry } from '@/lib/telemetry'
 

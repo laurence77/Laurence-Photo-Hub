@@ -3,8 +3,8 @@
     "collect": {
       "staticDistDir": "dist",
       "url": [
-        "https://laurence77.github.io/Laurence-Photo-Hub/",
-        "https://laurence77.github.io/Laurence-Photo-Hub/#/events"
+        "/index.html#/",
+        "/index.html#/events"
       ]
     },
     "assert": {
@@ -16,4 +16,3 @@
     }
   }
 }
-

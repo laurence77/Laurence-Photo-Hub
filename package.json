@@ -6,6 +6,7 @@
   "scripts": {
     "dev": "vite",
     "build": "vite build",
+    "build:lhci": "vite build --mode test",
     "build:dev": "vite build --mode development",
     "build:prod": "vite build --mode production",
     "lint": "eslint .",

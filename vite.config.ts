@@ -5,7 +5,8 @@ import { componentTagger } from "lovable-tagger";
 
 // https://vitejs.dev/config/
 export default defineConfig(({ mode }) => ({
-  base: '/Laurence-Photo-Hub/',
+  // Use root base during test (LHCI) builds so static server can resolve assets
+  base: mode === 'test' ? '/' : '/Laurence-Photo-Hub/',
   server: {
     host: "::",
     port: 8080,
@@ -49,5 +50,11 @@ export default defineConfig(({ mode }) => ({
     outDir: 'dist',
     assetsDir: 'assets',
     sourcemap: false,
+    rollupOptions: {
+      input: {
+        main: path.resolve(__dirname, 'index.html')
+      }
+    },
+    copyPublicDir: true
   },
 }));

@@ -2,6 +2,9 @@
 @tailwind components;
 @tailwind utilities;
 
+/* Import 3D utilities after Tailwind utilities */
+@import './styles/tailwind-3d-utilities.css';
+
 @layer base {
   :root {
     /* Apple Vision Pro Color Palette */
